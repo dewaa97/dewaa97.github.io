@@ -152,6 +152,118 @@ body {
     color: #e0e0e0;
 }
 
+/* Experience Timeline */
+.experience {
+    margin-bottom: 4rem;
+}
+
+.timeline {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #000000;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 3rem;
+    padding-left: 60px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: 11px;
+    top: 8px;
+    width: 18px;
+    height: 18px;
+    background: #ffffff;
+    border: 3px solid #000000;
+    border-radius: 50%;
+}
+
+.timeline-content {
+    background: white;
+    border: 2px solid #000000;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+    background: #000000;
+    color: white;
+}
+
+.timeline-header {
+    margin-bottom: 1rem;
+}
+
+.timeline-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.timeline-content:hover .timeline-header h3 {
+    color: white;
+}
+
+.company {
+    display: block;
+    font-weight: 500;
+    color: #666666;
+    margin-bottom: 0.25rem;
+    transition: color 0.3s ease;
+}
+
+.timeline-content:hover .company {
+    color: #e0e0e0;
+}
+
+.duration {
+    display: block;
+    font-size: 0.9rem;
+    color: #808080;
+    margin-bottom: 0.25rem;
+    transition: color 0.3s ease;
+}
+
+.timeline-content:hover .duration {
+    color: #cccccc;
+}
+
+.location {
+    display: block;
+    font-size: 0.9rem;
+    color: #808080;
+    transition: color 0.3s ease;
+}
+
+.timeline-content:hover .location {
+    color: #cccccc;
+}
+
+.timeline-content p {
+    color: #666666;
+    line-height: 1.7;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.timeline-content:hover p {
+    color: #e0e0e0;
+}
+
 /* Contact Section */
 .contact {
     text-align: center;
@@ -274,6 +386,28 @@ body {
     .contact-link {
         width: 100%;
         max-width: 300px;
+    }
+    
+    .timeline::before {
+        left: 15px;
+    }
+    
+    .timeline-item {
+        padding-left: 45px;
+    }
+    
+    .timeline-marker {
+        left: 6px;
+        width: 16px;
+        height: 16px;
+    }
+    
+    .timeline-content {
+        padding: 1.25rem;
+    }
+    
+    .timeline-header h3 {
+        font-size: 1.1rem;
     }
 }
 
