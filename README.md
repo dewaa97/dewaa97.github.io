@@ -26,8 +26,12 @@ This is a simple, clean, and responsive personal website built with pure HTML an
 
 ## Setup
 
-This website is automatically deployed via GitHub Pages. Simply push to the main branch and the site will be live at:
-`https://dewaa97.github.io/dewaa97-is-a-dev`
+This website is automatically deployed via GitHub Pages.
+
+**Current URL**: `https://dewaa97.github.io`  
+**Future custom domain**: `dewaa97.is-a.dev` (coming soon!)
+
+Simply push to the main branch and the site will be live.
 
 ## Local Development
 
