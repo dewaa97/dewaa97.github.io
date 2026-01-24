@@ -15,6 +15,9 @@ export const PortfolioApp = () => {
         <div className="text-center md:text-left">
           <h1 className="text-3xl font-bold">{portfolioData.personalInfo.name}</h1>
           <p className="text-xl text-muted-foreground">{portfolioData.personalInfo.title}</p>
+          {portfolioData.personalInfo.fyi && (
+            <p className="text-xs text-muted-foreground mt-1">{portfolioData.personalInfo.fyi}</p>
+          )}
           <p className="mt-2 max-w-lg text-foreground/80">{portfolioData.personalInfo.bio}</p>
 
           <div className="mt-4 flex flex-wrap items-center justify-center md:justify-start gap-2">

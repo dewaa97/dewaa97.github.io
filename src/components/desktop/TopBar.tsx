@@ -2,7 +2,6 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { useWindowStore } from '@/stores/windowStore';
 import { useAppStore } from '@/stores/appStore';
 import { useThemeStore, themes } from '@/stores/themeStore';
-import { useUserStore } from '@/stores/userStore';
 import { Check, Monitor } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import {
@@ -17,9 +16,7 @@ export const TopBar = () => {
   const { windows, activeWindowId, focusWindow, minimizeWindow } = useWindowStore();
   const { apps } = useAppStore();
   const { currentTheme, isDarkMode } = useThemeStore();
-  const { username, logout } = useUserStore();
   const [isWindowMenuOpen, setIsWindowMenuOpen] = useState(false);
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [retroMenuIndex, setRetroMenuIndex] = useState<Record<string, number>>({});
 
   const theme = themes[currentTheme];
@@ -57,13 +54,12 @@ export const TopBar = () => {
   useEffect(() => {
     const handleClickOutside = () => {
       setIsWindowMenuOpen(false);
-      setIsUserMenuOpen(false);
     };
-    if (isWindowMenuOpen || isUserMenuOpen) {
+    if (isWindowMenuOpen) {
       window.addEventListener('click', handleClickOutside);
     }
     return () => window.removeEventListener('click', handleClickOutside);
-  }, [isWindowMenuOpen, isUserMenuOpen]);
+  }, [isWindowMenuOpen]);
 
   return (
     <div className={cn(
@@ -78,46 +74,15 @@ export const TopBar = () => {
       )}
       
       <div className="flex items-center gap-4">
-        <button
+        <div
           className={cn(
-            "font-bold flex items-center gap-2",
-            (!isRetro && !isGlassy) && "drop-shadow-md"
+            'font-bold flex items-center gap-2',
+            (!isRetro && !isGlassy) && 'drop-shadow-md'
           )}
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsUserMenuOpen((v) => !v);
-          }}
         >
-            <div className={cn(
-                "w-4 h-4 rounded-full shadow-sm",
-                isRetro ? "bg-[#2d2d2d]" : "bg-white"
-            )} />
-            {username || 'Guest'}
-        </button>
-
-        {isUserMenuOpen && (
-          <div className={cn(
-            "absolute top-8 left-4 mt-1 w-40 rounded-lg shadow-xl border p-1 overflow-hidden animate-in fade-in zoom-in-95 duration-100",
-            isRetro
-              ? "bg-[#fcfbf9] border-[#d0c8b6] text-[#2d2d2d] shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]"
-              : isGlassy
-                ? "bg-white/60 dark:bg-black/60 backdrop-blur-xl border-white/20 text-foreground"
-                : "bg-white dark:bg-zinc-800 border-border text-foreground"
-          )}>
-            <button
-              className={cn(
-                "w-full text-left px-2 py-2 text-sm rounded-md",
-                isRetro ? "hover:bg-[#d0c8b6]/20" : "hover:bg-muted"
-              )}
-              onClick={() => {
-                logout();
-                setIsUserMenuOpen(false);
-              }}
-            >
-              Logout
-            </button>
-          </div>
-        )}
+          <div className={cn('w-4 h-4 rounded-full shadow-sm', isRetro ? 'bg-[#2d2d2d]' : 'bg-white')} />
+          dewaa97
+        </div>
         
         <div className={cn(
             "flex items-center gap-4 text-sm",
