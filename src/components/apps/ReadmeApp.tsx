@@ -44,6 +44,13 @@ export const ReadmeApp = () => {
               <Sparkles size={16} />
               What you’ll find here
             </div>
+
+            <div className="mt-3 rounded-2xl border border-border bg-background/60 p-3">
+              <div className="text-xs text-muted-foreground">
+                Some notes include links or excerpts from public sources. Credit stays with the original authors—this is just my
+                personal learning library, not me claiming ownership.
+              </div>
+            </div>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl border border-border bg-background/60 p-3">
                 <div className="flex items-center gap-2 text-sm font-semibold">
