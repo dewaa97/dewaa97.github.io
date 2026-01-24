@@ -1,0 +1,66 @@
+{
+  "personalInfo": {
+    "name": "Dewa Fakha Shiva",
+    "title": "Project Manager at Flying Cape Technologies • AI & Web3 Enthusiast",
+    "bio": "Leading cross-functional teams and delivering innovative tech solutions for 2+ years. Experienced in project management, customer requirement gathering, and collaborating with UI/UX, developers, and data analysts to bring products to life. Passionate about building innovative solutions using AI-assisted workflows and exploring the potential of Web3 technologies.",
+    "photo": "https://github.com/shadcn.png",
+    "contact": {
+        "email": "dewafakhashiva@gmail.com",
+        "linkedin": "https://linkedin.com/in/dewaa97"
+    }
+  },
+  "experience": [
+    {
+      "id": "1",
+      "company": "Flying Cape Technologies",
+      "position": "Project Manager",
+      "startDate": "Feb 2023",
+      "endDate": "Present",
+      "description": "Leading cross-functional teams to deliver tech solutions on schedule. Managing product delivery with UI/UX designers, developers, and data analysts.",
+      "technologies": ["Project Management", "Cross-functional Leadership", "Tech Solutions"]
+    },
+    {
+      "id": "2",
+      "company": "Xylo Indonesia",
+      "position": "Project Manager",
+      "startDate": "May 2022",
+      "endDate": "Dec 2022",
+      "description": "Managed both internal product development and external customer projects. Led redesign efforts and created project timelines for optimal delivery coordination.",
+      "technologies": ["Product Development", "Customer Projects", "Timeline Management"]
+    },
+    {
+      "id": "3",
+      "company": "PT Jari Solusi International",
+      "position": "Project Manager",
+      "startDate": "Jul 2021",
+      "endDate": "May 2022",
+      "description": "Led project scopes and objectives involving stakeholders. Organized internal resources and third-party vendors for seamless project execution while ensuring timely delivery within budget.",
+      "technologies": ["Stakeholder Management", "Vendor Management", "Budget Management"]
+    },
+    {
+      "id": "4",
+      "company": "PT Jari Solusi International",
+      "position": "Technical Consultant",
+      "startDate": "Feb 2018",
+      "endDate": "Jun 2021",
+      "description": "Provided technical consulting for sales teams, led implementation of new features, and handled customer requirement gathering for application configuration. Solved customer problems and improved product features.",
+      "technologies": ["Technical Consulting", "Requirement Gathering", "Feature Implementation"]
+    },
+    {
+      "id": "5",
+      "company": "PT Jari Solusi International",
+      "position": "Technical Support",
+      "startDate": "Nov 2017",
+      "endDate": "Feb 2018",
+      "description": "Handled technical support for mobile devices, office inventory, and application setup for new customers. Prepared data for trial applications and managed customer technical needs.",
+      "technologies": ["Technical Support", "Application Setup", "Customer Support"]
+    }
+  ],
+  "skills": [
+    { "name": "Project Management", "level": 95 },
+    { "name": "Stakeholder Management", "level": 90 },
+    { "name": "Consulting", "level": 85 },
+    { "name": "UI/UX Collaboration", "level": 85 },
+    { "name": "AI-Assisted Development", "level": 50 }
+  ]
+}
