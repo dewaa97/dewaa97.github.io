@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Wallpaper } from './Wallpaper';
 import { WindowManager } from '../windows/WindowManager';
 import { TopBar } from './TopBar';
@@ -17,6 +17,7 @@ export const DesktopScreen = () => {
   const theme = themes[currentTheme];
   const { openWindow } = useWindowStore();
   const { positions, setIconPosition } = useDesktopIconStore();
+  const didAutoOpenRef = useRef(false);
   
   const constraintsRef = useRef<HTMLDivElement>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);
@@ -44,6 +45,27 @@ export const DesktopScreen = () => {
     });
     return map;
   }, [desktopApps]);
+
+  useEffect(() => {
+    if (didAutoOpenRef.current) return;
+    didAutoOpenRef.current = true;
+
+    try {
+      const key = 'dfs-readme-opened';
+      const already = window.localStorage.getItem(key);
+      if (already) return;
+      window.localStorage.setItem(key, '1');
+    } catch {
+      // ignore
+    }
+
+    const hasReadme = desktopApps.some((a) => a.id === 'readme');
+    if (!hasReadme) return;
+
+    window.setTimeout(() => {
+      openWindow('readme', 'Read Me');
+    }, 0);
+  }, [desktopApps, openWindow]);
 
   const getIconPosition = (appId: string) => positions[appId] ?? defaultPositions[appId] ?? { x: 16, y: 16 };
 

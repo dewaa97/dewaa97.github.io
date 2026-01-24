@@ -1,10 +1,19 @@
-import { FileText, Settings, Link } from 'lucide-react';
+import { FileText, Settings, Link, BookOpenText } from 'lucide-react';
 import { App } from '@/stores/appStore';
 import { PortfolioApp } from '@/components/apps/PortfolioApp';
 import { SettingsApp } from '@/components/apps/SettingsApp';
 import { Web3App } from '@/components/apps/Web3App';
+import { ReadmeApp } from '@/components/apps/ReadmeApp';
 
 export const initialApps: App[] = [
+  {
+    id: 'readme',
+    title: 'Read Me',
+    icon: BookOpenText,
+    component: ReadmeApp,
+    defaultSize: { width: 760, height: 560 },
+    isResizable: true,
+  },
   {
     id: 'portfolio',
     title: 'Resume',
