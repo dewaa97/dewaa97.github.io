@@ -8,7 +8,7 @@ export const PortfolioApp = () => {
   const email = 'dewafakhashiva@duck.com';
 
   return (
-    <div className="h-full overflow-y-auto bg-background text-foreground p-8">
+    <div className="h-full overflow-y-auto bg-background text-foreground p-4 sm:p-6 md:p-8">
       {/* Header */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-12">
         <img src={portfolioData.personalInfo.photo} alt="Profile" className="w-24 h-24 rounded-full border-4 border-primary/20 shadow-lg" />

@@ -83,7 +83,7 @@ export const SettingsApp = () => {
       </div>
 
       {/* Content */}
-      <div className="flex-1 p-8 overflow-y-auto">
+      <div className="flex-1 p-4 md:p-8 overflow-y-auto">
         {activeTab === 'appearance' && (
             <>
                 <h3 className="text-xl font-bold mb-6">Appearance</h3>

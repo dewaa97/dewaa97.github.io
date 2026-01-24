@@ -44,14 +44,22 @@ export const useWindowStore = create<WindowStore>((set) => ({
     }
 
     const id = `${appId}-${Date.now()}`;
+
+    const isSmallScreen =
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(max-width: 767px)').matches;
+
     const newWindow: WindowState = {
       id,
       appId,
       title,
-      position: { x: 50 + (state.windows.length * 30), y: 50 + (state.windows.length * 30) },
+      position: isSmallScreen
+        ? { x: 0, y: 0 }
+        : { x: 50 + (state.windows.length * 30), y: 50 + (state.windows.length * 30) },
       size: { width: 900, height: 600 },
       isMinimized: false,
-      isMaximized: false,
+      isMaximized: isSmallScreen,
       zIndex: state.zIndexCounter + 1,
     };
     return {
