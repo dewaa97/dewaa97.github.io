@@ -21,24 +21,24 @@ describe('WindowManager', () => {
 
   it('renders an open window', () => {
     const { openWindow } = useWindowStore.getState();
-    openWindow('portfolio', 'Portfolio');
+    openWindow('portfolio', 'Resume');
 
     render(<WindowManager />);
     
     // Check if PortfolioApp content is rendered
     expect(screen.getByText('Experience')).toBeInTheDocument();
     // Check if Window title is rendered
-    expect(screen.getByText('Portfolio')).toBeInTheDocument();
+    expect(screen.getByText('Resume')).toBeInTheDocument();
   });
 
   it('renders multiple windows', () => {
     const { openWindow } = useWindowStore.getState();
-    openWindow('portfolio', 'Portfolio');
-    openWindow('browser', 'Browser');
+    openWindow('portfolio', 'Resume');
+    openWindow('web3', 'Web3');
 
     render(<WindowManager />);
     
     expect(screen.getByText('Experience')).toBeInTheDocument();
-    expect(screen.getByTitle('Browser')).toBeInTheDocument(); // Iframe title
+    expect(screen.getByText('MetaMask Blockchain Education')).toBeInTheDocument();
   });
 });
