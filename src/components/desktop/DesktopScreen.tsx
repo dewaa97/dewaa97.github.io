@@ -16,7 +16,7 @@ export const DesktopScreen = () => {
   const { currentTheme } = useThemeStore();
   const theme = themes[currentTheme];
   const { openWindow } = useWindowStore();
-  const { positions, setIconPosition, resetPositions } = useDesktopIconStore();
+  const { positions, setIconPosition, resetPositions, cleanUpIcons: cleanUpIconsStore } = useDesktopIconStore();
   const didAutoOpenRef = useRef(false);
 
   const [contextMenu, setContextMenu] = useState<null | { x: number; y: number }> (null);
@@ -117,34 +117,10 @@ export const DesktopScreen = () => {
   };
 
   const cleanupIcons = () => {
-    const container = constraintsRef.current;
-    const rect = container?.getBoundingClientRect();
-
-    const startX = 16;
-    const startY = 16;
-    const colWidth = 92;
-    const rowHeight = 104;
-
-    const iconW = 84;
-    const iconH = 96;
-
-    const maxX = rect ? Math.max(0, rect.width - iconW) : 0;
-    const maxY = rect ? Math.max(0, rect.height - iconH) : 0;
-
-    const perCol = rect
-      ? Math.max(1, Math.floor((rect.height - startY) / rowHeight))
-      : 6;
-
-    desktopApps.forEach((app, index) => {
-      const col = Math.floor(index / perCol);
-      const row = index % perCol;
-      const x = startX + col * colWidth;
-      const y = startY + row * rowHeight;
-      const nextX = rect ? clamp(snap(x, 8), 0, maxX) : x;
-      const nextY = rect ? clamp(snap(y, 8), 0, maxY) : y;
-      setIconPosition(app.id, { x: nextX, y: nextY });
-    });
-
+    const rect = constraintsRef.current?.getBoundingClientRect();
+    const width = rect?.width ?? window.innerWidth;
+    const height = rect?.height ?? (window.innerHeight - 32);
+    cleanUpIconsStore(desktopApps.map((a) => a.id), { width, height });
     setContextMenu(null);
   };
 

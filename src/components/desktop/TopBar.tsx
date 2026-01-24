@@ -2,8 +2,10 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { useWindowStore } from '@/stores/windowStore';
 import { useAppStore } from '@/stores/appStore';
 import { useThemeStore, themes } from '@/stores/themeStore';
-import { Check, Monitor } from 'lucide-react';
+import { Check, Monitor, LayoutGrid } from 'lucide-react';
 import { cn } from '@/utils/cn';
+import { useDesktopIconStore } from '@/stores/desktopIconStore';
+import { initialApps } from '@/config/apps';
 import {
   RetroBrowserIcon,
   RetroExplorerIcon,
@@ -16,7 +18,9 @@ export const TopBar = () => {
   const { windows, activeWindowId, focusWindow, minimizeWindow } = useWindowStore();
   const { apps } = useAppStore();
   const { currentTheme, isDarkMode } = useThemeStore();
+  const { cleanUpIcons, resetPositions } = useDesktopIconStore();
   const [isWindowMenuOpen, setIsWindowMenuOpen] = useState(false);
+  const [isIconMenuOpen, setIsIconMenuOpen] = useState(false);
   const [retroMenuIndex, setRetroMenuIndex] = useState<Record<string, number>>({});
 
   const theme = themes[currentTheme];
@@ -54,12 +58,15 @@ export const TopBar = () => {
   useEffect(() => {
     const handleClickOutside = () => {
       setIsWindowMenuOpen(false);
+      setIsIconMenuOpen(false);
     };
-    if (isWindowMenuOpen) {
+    if (isWindowMenuOpen || isIconMenuOpen) {
       window.addEventListener('click', handleClickOutside);
     }
     return () => window.removeEventListener('click', handleClickOutside);
-  }, [isWindowMenuOpen]);
+  }, [isWindowMenuOpen, isIconMenuOpen]);
+
+  const desktopApps = Object.values(apps).length > 0 ? Object.values(apps) : initialApps;
 
   return (
     <div className={cn(
@@ -178,6 +185,68 @@ export const TopBar = () => {
                         )}
                     </div>
                 )}
+            </div>
+
+            <div className="relative">
+              <button
+                className={cn(
+                  'px-2 py-0.5 rounded cursor-pointer transition-colors flex items-center gap-1',
+                  isIconMenuOpen && (isRetro ? 'bg-[#d0c8b6]/30' : 'bg-white/10'),
+                  isRetro ? 'hover:bg-[#d0c8b6]/30' : 'hover:bg-white/10'
+                )}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsIconMenuOpen((v) => !v);
+                }}
+              >
+                <LayoutGrid size={14} />
+                Icons
+              </button>
+
+              {isIconMenuOpen && (
+                <div
+                  className={cn(
+                    'absolute top-full left-0 mt-1 w-52 rounded-lg shadow-xl border p-1 overflow-hidden animate-in fade-in zoom-in-95 duration-100',
+                    isRetro
+                      ? 'bg-[#fcfbf9] border-[#d0c8b6] text-[#2d2d2d] shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]'
+                      : isGlassy
+                        ? 'bg-white/60 dark:bg-black/60 backdrop-blur-xl border-white/20 text-foreground'
+                        : 'bg-white dark:bg-zinc-800 border-border text-foreground'
+                  )}
+                >
+                  <div className="px-2 py-1.5 text-xs font-semibold opacity-70 border-b border-border mb-1">
+                    Desktop Icons
+                  </div>
+                  <button
+                    className={cn(
+                      'w-full text-left px-2 py-2 text-sm rounded-md',
+                      isRetro ? 'hover:bg-[#d0c8b6]/20' : 'hover:bg-muted'
+                    )}
+                    onClick={() => {
+                      cleanUpIcons(desktopApps.map((a) => a.id), {
+                        width: window.innerWidth,
+                        height: window.innerHeight,
+                        topOffset: 32,
+                      });
+                      setIsIconMenuOpen(false);
+                    }}
+                  >
+                    Clean Up Icons
+                  </button>
+                  <button
+                    className={cn(
+                      'w-full text-left px-2 py-2 text-sm rounded-md',
+                      isRetro ? 'hover:bg-[#d0c8b6]/20' : 'hover:bg-muted'
+                    )}
+                    onClick={() => {
+                      resetPositions();
+                      setIsIconMenuOpen(false);
+                    }}
+                  >
+                    Reset Icon Layout
+                  </button>
+                </div>
+              )}
             </div>
         </div>
       </div>
