@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Folder, FileText, ChevronRight, Home, ArrowLeft, LucideIcon } from 'lucide-react';
-import projectsData from '@/data/projects.json';
+import React, { useMemo, useState } from 'react';
+import { Folder, ChevronRight, Home, ArrowLeft, LucideIcon, ExternalLink, X, Route } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
 interface FileSystemItem {
@@ -11,39 +10,35 @@ interface FileSystemItem {
     data?: unknown;
     content?: string;
     url?: string;
+    embedUrl?: string;
 }
 
 export const FileExplorer = () => {
   const [currentPath, setCurrentPath] = useState<string[]>([]);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  const [activeEmbed, setActiveEmbed] = useState<null | { title: string; url: string; embedUrl: string }>(null);
+
+  const nodes = useMemo<Record<string, FileSystemItem>>(
+    () => ({
+      learning: { id: 'learning', name: 'Learning', type: 'folder', icon: Folder },
+      projectManagement: { id: 'project-management', name: 'Project Management', type: 'folder', icon: Folder },
+      itProjectManagement: {
+        id: 'it-project-management',
+        name: 'IT Project Management.roadmap',
+        type: 'file',
+        icon: Route,
+        url: 'https://roadmap.sh/r/it-project-management-jwmbm',
+        embedUrl: 'https://roadmap.sh/r/it-project-management-jwmbm',
+      },
+    }),
+    []
+  );
 
   const getItems = (): FileSystemItem[] => {
-    if (currentPath.length === 0) {
-        return [
-            { id: 'projects', name: 'Projects', type: 'folder', icon: Folder },
-            { id: 'documents', name: 'Documents', type: 'folder', icon: Folder },
-            { id: 'resume.pdf', name: 'Resume.pdf', type: 'file', icon: FileText },
-        ];
-    }
-    if (currentPath[0] === 'projects') {
-        if (currentPath.length === 1) {
-            return projectsData.map(p => ({
-                id: p.id,
-                name: p.name,
-                type: 'folder',
-                icon: Folder,
-                data: p
-            }));
-        }
-        // Inside a project folder
-        const projectId = currentPath[1];
-        const project = projectsData.find(p => p.id === projectId);
-        if (project) {
-            return [
-                { id: 'readme', name: 'README.md', type: 'file', icon: FileText, content: project.description },
-                { id: 'link', name: 'Website.url', type: 'file', icon: FileText, url: project.url },
-            ];
-        }
+    if (currentPath.length === 0) return [nodes.learning];
+    if (currentPath[0] === 'learning') {
+      if (currentPath.length === 1) return [nodes.projectManagement];
+      if (currentPath.length === 2 && currentPath[1] === 'project-management') return [nodes.itProjectManagement];
     }
     return [];
   };
@@ -54,10 +49,15 @@ export const FileExplorer = () => {
 
   const handleItemDoubleClick = (item: FileSystemItem) => {
     if (item.type === 'folder') {
-        if (item.id === 'projects') setCurrentPath(['projects']);
-        else if (currentPath[0] === 'projects' && currentPath.length === 1) setCurrentPath(['projects', item.id]);
-        else if (item.id === 'documents') setCurrentPath(['documents']);
+        if (item.id === 'learning') setCurrentPath(['learning']);
+        else if (currentPath[0] === 'learning' && currentPath.length === 1 && item.id === 'project-management') setCurrentPath(['learning', 'project-management']);
         setSelectedItem(null);
+    } else {
+      if (item.embedUrl && item.url) {
+        setActiveEmbed({ title: item.name, url: item.url, embedUrl: item.embedUrl });
+      } else if (item.url) {
+        window.open(item.url, '_blank', 'noopener,noreferrer');
+      }
     }
   };
 
@@ -70,11 +70,8 @@ export const FileExplorer = () => {
         <button onClick={() => setCurrentPath([])} className={cn("flex items-center gap-2 px-2 py-1.5 rounded-md text-sm hover:bg-muted transition-colors", currentPath.length === 0 && "bg-muted font-medium")}>
             <Home size={16} /> Home
         </button>
-        <button onClick={() => setCurrentPath(['projects'])} className={cn("flex items-center gap-2 px-2 py-1.5 rounded-md text-sm hover:bg-muted transition-colors", currentPath[0] === 'projects' && "bg-muted font-medium")}>
-            <Folder size={16} /> Projects
-        </button>
-        <button onClick={() => setCurrentPath(['documents'])} className={cn("flex items-center gap-2 px-2 py-1.5 rounded-md text-sm hover:bg-muted transition-colors", currentPath[0] === 'documents' && "bg-muted font-medium")}>
-            <Folder size={16} /> Documents
+        <button onClick={() => setCurrentPath(['learning'])} className={cn("flex items-center gap-2 px-2 py-1.5 rounded-md text-sm hover:bg-muted transition-colors", currentPath[0] === 'learning' && "bg-muted font-medium")}>
+            <Folder size={16} /> Learning
         </button>
       </div>
 
@@ -94,7 +91,7 @@ export const FileExplorer = () => {
                 {currentPath.map((p, i) => (
                     <React.Fragment key={i}>
                         <ChevronRight size={14} className="mx-1" />
-                        <span>{p === 'projects' ? 'Projects' : p === 'documents' ? 'Documents' : projectsData.find(x => x.id === p)?.name || p}</span>
+                        <span>{p === 'learning' ? 'Learning' : p === 'project-management' ? 'Project Management' : p}</span>
                     </React.Fragment>
                 ))}
             </div>
@@ -121,6 +118,59 @@ export const FileExplorer = () => {
             )}
         </div>
       </div>
+
+      {activeEmbed && (
+        <div
+          className={cn(
+            'fixed inset-0 z-[200] flex items-center justify-center p-4',
+            'bg-black/50 backdrop-blur-sm'
+          )}
+          onClick={() => setActiveEmbed(null)}
+        >
+          <div
+            className="w-full max-w-5xl rounded-2xl border border-border bg-background text-foreground shadow-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="h-12 px-4 flex items-center justify-between border-b border-border">
+              <div className="text-sm font-semibold truncate">{activeEmbed.title}</div>
+              <button
+                className={cn('h-8 w-8 rounded-lg hover:bg-muted transition-colors flex items-center justify-center')}
+                onClick={() => setActiveEmbed(null)}
+                aria-label="Close"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <div className="p-4">
+              <div className="text-xs text-muted-foreground">
+                If this page can’t be displayed inside the app (some sites block embeds), use “Open full page”.
+              </div>
+              <iframe
+                src={activeEmbed.embedUrl}
+                title={activeEmbed.title}
+                width="100%"
+                frameBorder={0}
+                className="mt-3 w-full rounded-xl border border-border bg-white"
+                style={{ height: 'min(560px, 65vh)' }}
+              />
+
+              <div className="mt-3 flex items-center justify-end gap-2">
+                <button
+                  className={cn(
+                    'h-9 px-3 rounded-xl text-sm font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors',
+                    'flex items-center gap-2'
+                  )}
+                  onClick={() => window.open(activeEmbed.url, '_blank', 'noopener,noreferrer')}
+                >
+                  <ExternalLink size={16} />
+                  Open full page
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

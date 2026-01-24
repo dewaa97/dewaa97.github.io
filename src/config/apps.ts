@@ -1,11 +1,20 @@
-import { FileText, Settings, Link, BookOpen } from 'lucide-react';
+import { FileText, Settings, Link, BookOpen, FolderOpen } from 'lucide-react';
 import { App } from '@/stores/appStore';
 import { PortfolioApp } from '@/components/apps/PortfolioApp';
 import { SettingsApp } from '@/components/apps/SettingsApp';
 import { Web3App } from '@/components/apps/Web3App';
 import { ReadmeApp } from '@/components/apps/ReadmeApp';
+import { FileExplorer } from '@/components/apps/FileExplorer';
 
 export const initialApps: App[] = [
+  {
+    id: 'explorer',
+    title: 'Explorer',
+    icon: FolderOpen,
+    component: FileExplorer,
+    defaultSize: { width: 920, height: 620 },
+    isResizable: true,
+  },
   {
     id: 'readme',
     title: 'Read Me',
