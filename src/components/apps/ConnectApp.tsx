@@ -4,16 +4,60 @@ import { cn } from '@/utils/cn';
 
 export const ConnectApp = () => {
   const email = 'dewafakhashiva@duck.com';
+  const apiUrl = (import.meta as any).env?.VITE_SAY_HI_API_URL as string | undefined;
   const [name, setName] = useState('');
   const [from, setFrom] = useState('');
   const [message, setMessage] = useState('');
   const [copied, setCopied] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [honeypot, setHoneypot] = useState('');
 
   const mailto = useMemo(() => {
     const subject = name.trim().length ? `Reach out from ${name.trim()}` : 'Reach out';
     const body = `Name: ${name}\nEmail: ${from}\n\nMessage:\n${message}`;
     return `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }, [email, name, from, message]);
+
+  const canSend = message.trim().length >= 10;
+
+  const submitViaApi = async () => {
+    if (!apiUrl) return false;
+    setStatus('sending');
+    setErrorMsg(null);
+    try {
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email: from,
+          message,
+          website: honeypot,
+        }),
+      });
+
+      if (!res.ok) {
+        let msg = `Request failed (${res.status})`;
+        try {
+          const data = (await res.json()) as { error?: string };
+          if (data?.error) msg = data.error;
+        } catch {
+          // ignore
+        }
+        throw new Error(msg);
+      }
+
+      setStatus('sent');
+      return true;
+    } catch (e) {
+      setStatus('error');
+      setErrorMsg(e instanceof Error ? e.message : 'Failed to send');
+      return false;
+    }
+  };
 
   return (
     <div className="h-full w-full bg-background text-foreground p-6">
@@ -65,9 +109,14 @@ export const ConnectApp = () => {
 
           <form
             className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3"
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              window.location.href = mailto;
+              if (!canSend) return;
+
+              const ok = await submitViaApi();
+              if (!ok) {
+                window.location.href = mailto;
+              }
             }}
           >
             <div className="space-y-1">
@@ -97,6 +146,10 @@ export const ConnectApp = () => {
                 placeholder="Write a short message..."
               />
             </div>
+            <div className="hidden">
+              <label className="text-xs font-semibold">Website</label>
+              <input value={honeypot} onChange={(e) => setHoneypot(e.target.value)} tabIndex={-1} autoComplete="off" />
+            </div>
             <div className="md:col-span-2 flex items-center gap-2">
               <button
                 type="submit"
@@ -104,14 +157,27 @@ export const ConnectApp = () => {
                   'h-10 px-4 rounded-xl text-sm font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors',
                   'flex items-center gap-2'
                 )}
+                disabled={!canSend || status === 'sending'}
               >
                 <Send size={16} />
-                Open email client
+                {apiUrl ? (status === 'sending' ? 'Sending…' : 'Send') : 'Open email client'}
               </button>
               <a className="text-sm text-muted-foreground underline" href={mailto}>
                 Or use this mailto link
               </a>
             </div>
+
+            {status === 'sent' && (
+              <div className="md:col-span-2 text-sm font-semibold text-green-600">Sent. Thank you!</div>
+            )}
+            {status === 'error' && (
+              <div className="md:col-span-2 text-sm font-semibold text-red-600">
+                {errorMsg ?? 'Failed to send. Falling back to mailto.'}
+              </div>
+            )}
+            {message.trim().length > 0 && message.trim().length < 10 && (
+              <div className="md:col-span-2 text-xs text-muted-foreground">Message must be at least 10 characters.</div>
+            )}
           </form>
         </div>
       </div>

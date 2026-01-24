@@ -1,0 +1,13 @@
+{
+  "name": "say-hi-worker",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "wrangler": "^3.114.0"
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  }
+}
+
