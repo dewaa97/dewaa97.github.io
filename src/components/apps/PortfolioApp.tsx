@@ -64,7 +64,16 @@ export const PortfolioApp = () => {
                     <div key={exp.id} className="border-l-2 border-border pl-6 relative">
                         <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-background" />
                         <h3 className="font-semibold text-lg">{exp.position}</h3>
-                        <div className="text-sm font-medium text-muted-foreground mb-2">{exp.company} • {exp.startDate} - {exp.endDate}</div>
+                        <div className="mb-2">
+                          <div className="text-sm font-medium text-muted-foreground">
+                            {exp.company} • {exp.startDate} - {exp.endDate}
+                          </div>
+                          {(exp.location || exp.workMode) && (
+                            <div className="mt-0.5 text-xs font-medium text-muted-foreground">
+                              {[exp.location, exp.workMode].filter(Boolean).join(' • ')}
+                            </div>
+                          )}
+                        </div>
                         <p className="text-sm mb-3 text-foreground/80 leading-relaxed">{exp.description}</p>
                         <div className="flex flex-wrap gap-2">
                             {exp.technologies.map(tech => (
