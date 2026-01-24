@@ -1,10 +1,12 @@
 import React from 'react';
-import { Mail, ExternalLink, Sparkles, MessageCircle, FlaskConical, BookOpen, Puzzle } from 'lucide-react';
+import { Mail, ExternalLink, Sparkles, MessageCircle, FlaskConical, BookOpen, Puzzle, AtSign } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
 export const ReadmeApp = () => {
   const email = 'dewafakhashiva@duck.com';
   const linkedInUrl = 'https://linkedin.com/in/dewaa97';
+  const xHandle = '@videcobe';
+  const xUrl = 'https://x.com/videcobe';
 
   return (
     <div className="h-full w-full bg-background text-foreground overflow-y-auto">
@@ -142,7 +144,7 @@ export const ReadmeApp = () => {
           <section className="rounded-2xl border border-border bg-card p-4">
             <div className="text-sm font-semibold">Reach out</div>
             <div className="mt-2 text-sm text-muted-foreground">
-              If any of the above resonates—or you just want to say hi—send me an email. LinkedIn works too.
+              If any of the above resonates—or you just want to say hi—email is best. If that feels too formal, feel free to reach out on X.
             </div>
 
             <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -155,6 +157,19 @@ export const ReadmeApp = () => {
               >
                 <Mail size={16} />
                 {email}
+              </a>
+
+              <a
+                className={cn(
+                  'h-9 px-3 rounded-xl text-sm font-semibold bg-muted text-foreground hover:bg-muted/70 transition-colors',
+                  'flex items-center gap-2'
+                )}
+                href={xUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <AtSign size={16} />
+                {xHandle}
               </a>
 
               <a
