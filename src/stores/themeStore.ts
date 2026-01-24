@@ -57,6 +57,13 @@ export const themes = {
     borderRadius: 'rounded-xl',
     font: 'font-sans',
     shadow: 'shadow-2xl',
+    wallpapers: [
+      'radial-gradient(900px 700px at 20% 25%, rgba(111, 145, 255, 0.75), transparent 60%), radial-gradient(900px 700px at 80% 30%, rgba(255, 120, 203, 0.7), transparent 60%), radial-gradient(900px 700px at 60% 85%, rgba(95, 255, 198, 0.55), transparent 60%), linear-gradient(180deg, #0b1020, #0a0f18)',
+      'radial-gradient(1200px 800px at 20% 20%, rgba(255, 105, 180, 0.5), transparent 55%), radial-gradient(900px 700px at 75% 35%, rgba(255, 200, 87, 0.6), transparent 60%), radial-gradient(1000px 900px at 55% 85%, rgba(62, 180, 255, 0.5), transparent 65%), linear-gradient(180deg, #f7efe3, #efe3d0)',
+      'linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.05)), repeating-linear-gradient(0deg, rgba(0,0,0,0.08) 0px, rgba(0,0,0,0.08) 1px, transparent 1px, transparent 6px), linear-gradient(135deg, #f4f1ea, #f9f6ef)',
+      'repeating-conic-gradient(from 270deg at 50% 100%, #0b1f3a 0deg 12deg, #f6e6c8 12deg 24deg, #b8232a 24deg 36deg)',
+    ],
+    wallpaper: 'radial-gradient(900px 700px at 20% 25%, rgba(111, 145, 255, 0.75), transparent 60%), radial-gradient(900px 700px at 80% 30%, rgba(255, 120, 203, 0.7), transparent 60%), radial-gradient(900px 700px at 60% 85%, rgba(95, 255, 198, 0.55), transparent 60%), linear-gradient(180deg, #0b1020, #0a0f18)',
     iconStyle: 'default',
   },
   retro: {
