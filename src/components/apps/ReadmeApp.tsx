@@ -8,7 +8,7 @@ export const ReadmeApp = () => {
 
   return (
     <div className="h-full w-full bg-background text-foreground overflow-y-auto">
-      <div className="max-w-2xl mx-auto p-4 sm:p-6">
+      <div className="max-w-2xl mx-auto p-4 sm:p-6 pb-10">
         <div className="text-2xl font-bold">Read Me First</div>
 
         <div className="mt-2 text-sm text-foreground/90">

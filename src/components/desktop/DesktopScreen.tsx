@@ -76,6 +76,20 @@ export const DesktopScreen = () => {
     }, 0);
   }, [desktopApps, openWindow]);
 
+  useEffect(() => {
+    const applyAppHeight = () => {
+      document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+    };
+
+    applyAppHeight();
+    window.addEventListener('resize', applyAppHeight);
+    window.addEventListener('orientationchange', applyAppHeight);
+    return () => {
+      window.removeEventListener('resize', applyAppHeight);
+      window.removeEventListener('orientationchange', applyAppHeight);
+    };
+  }, []);
+
   const getIconPosition = (appId: string) => positions[appId] ?? defaultPositions[appId] ?? { x: 16, y: 16 };
 
   const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
@@ -144,7 +158,10 @@ export const DesktopScreen = () => {
   }, [contextMenu]);
 
   return (
-    <div className={cn('relative w-screen h-screen overflow-hidden select-none', theme.colors.foreground, theme.font)}>
+    <div
+      className={cn('relative w-screen overflow-hidden select-none', theme.colors.foreground, theme.font)}
+      style={{ height: 'var(--app-height)' }}
+    >
       <Wallpaper />
       <TopBar />
       
