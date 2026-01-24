@@ -68,6 +68,10 @@ export const TopBar = () => {
 
   const desktopApps = Object.values(apps).length > 0 ? Object.values(apps) : initialApps;
 
+  const showDesktop = () => {
+    windows.forEach((w) => minimizeWindow(w.id));
+  };
+
   return (
     <div className={cn(
         "fixed top-0 left-0 right-0 h-8 flex items-center justify-between px-4 text-sm font-medium z-[100] select-none transition-all duration-300",
@@ -104,6 +108,7 @@ export const TopBar = () => {
                     )}
                     onClick={(e) => {
                         e.stopPropagation();
+                        setIsIconMenuOpen(false);
                         setIsWindowMenuOpen(!isWindowMenuOpen);
                     }}
                 >
@@ -123,6 +128,22 @@ export const TopBar = () => {
                         <div className="px-2 py-1.5 text-xs font-semibold opacity-70 border-b border-border mb-1">
                             Open Applications
                         </div>
+
+                        <button
+                          onClick={() => {
+                            showDesktop();
+                            setIsWindowMenuOpen(false);
+                          }}
+                          className={cn(
+                            'w-full text-left px-2 py-1.5 text-sm rounded-md flex items-center justify-between group',
+                            isRetro ? 'hover:bg-[#d0c8b6]/20' : 'hover:bg-muted'
+                          )}
+                        >
+                          <span>Show Desktop</span>
+                        </button>
+
+                        <div className={cn('my-1 border-t', isRetro ? 'border-[#d0c8b6]/60' : 'border-border')} />
+
                         {windows.length === 0 ? (
                             <div className="px-2 py-2 text-xs opacity-70 text-center">No apps open</div>
                         ) : (
@@ -131,7 +152,10 @@ export const TopBar = () => {
                                 return (
                                     <button
                                         key={window.id}
-                                        onClick={() => focusWindow(window.id)}
+                                        onClick={() => {
+                                          focusWindow(window.id);
+                                          setIsWindowMenuOpen(false);
+                                        }}
                                         className={cn(
                                             "w-full text-left px-2 py-1.5 text-sm rounded-md flex items-center justify-between group",
                                             isRetro ? "hover:bg-[#d0c8b6]/20" : "hover:bg-muted",
@@ -196,6 +220,7 @@ export const TopBar = () => {
                 )}
                 onClick={(e) => {
                   e.stopPropagation();
+                  setIsWindowMenuOpen(false);
                   setIsIconMenuOpen((v) => !v);
                 }}
               >
