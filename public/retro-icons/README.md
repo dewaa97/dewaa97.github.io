@@ -7,5 +7,6 @@ Nama file yang didukung (per appId):
 - `settings.png` / `settings.svg` / `settings.webp`
 - `games.png` / `games.svg` / `games.webp`
 - `web3.png` / `web3.svg` / `web3.webp`
+- `hi.png` / `hi.svg` / `hi.webp`
 
 Prioritas load: PNG → SVG → WEBP.

@@ -69,7 +69,13 @@ export const DesktopIcon = ({ app }: DesktopIconProps) => {
             />
           ) : RetroIcon ? (
             <RetroIcon size={56} mode={isDarkMode ? 'dark' : 'light'} />
-          ) : null}
+          ) : (
+            <app.icon
+              size={44}
+              strokeWidth={1.75}
+              className={cn(isDarkMode ? 'text-white' : 'text-[#111111]')}
+            />
+          )}
         </div>
       ) : (
         <div

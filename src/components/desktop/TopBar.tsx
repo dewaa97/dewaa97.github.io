@@ -195,7 +195,11 @@ export const TopBar = () => {
                                                 }
 
                                                 const Icon = getRetroIcon(window.appId);
-                                                return Icon ? <Icon size={18} mode={isDarkMode ? 'dark' : 'light'} /> : null;
+                                                return Icon ? (
+                                                  <Icon size={18} mode={isDarkMode ? 'dark' : 'light'} />
+                                                ) : (
+                                                  <app.icon size={16} className={cn(isDarkMode ? 'text-white' : 'text-[#111111]')} />
+                                                );
                                               })() : (
                                                 <app.icon size={14} />
                                               )

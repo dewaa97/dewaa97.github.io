@@ -1,11 +1,11 @@
-import { Globe, User, FolderOpen, Settings, Gamepad2, Link } from 'lucide-react';
+import { Globe, FileText, FolderOpen, Settings, Link, MessageCircle } from 'lucide-react';
 import { App } from '@/stores/appStore';
 import { BrowserApp } from '@/components/apps/BrowserApp';
 import { PortfolioApp } from '@/components/apps/PortfolioApp';
 import { FileExplorer } from '@/components/apps/FileExplorer';
 import { SettingsApp } from '@/components/apps/SettingsApp';
-import { GamesApp } from '@/components/apps/GamesApp';
 import { Web3App } from '@/components/apps/Web3App';
+import { ConnectApp } from '@/components/apps/ConnectApp';
 
 export const initialApps: App[] = [
   {
@@ -18,8 +18,8 @@ export const initialApps: App[] = [
   },
   {
     id: 'portfolio',
-    title: 'Portfolio',
-    icon: User,
+    title: 'Resume',
+    icon: FileText,
     component: PortfolioApp,
     defaultSize: { width: 900, height: 600 },
     isResizable: true,
@@ -41,19 +41,19 @@ export const initialApps: App[] = [
     isResizable: false,
   },
   {
-    id: 'games',
-    title: 'Games',
-    icon: Gamepad2,
-    component: GamesApp,
-    defaultSize: { width: 920, height: 640 },
-    isResizable: true,
-  },
-  {
     id: 'web3',
     title: 'Web3',
     icon: Link,
     component: Web3App,
     defaultSize: { width: 860, height: 560 },
+    isResizable: true,
+  },
+  {
+    id: 'hi',
+    title: 'Say Hi!',
+    icon: MessageCircle,
+    component: ConnectApp,
+    defaultSize: { width: 560, height: 560 },
     isResizable: true,
   },
 ];
