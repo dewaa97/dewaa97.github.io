@@ -1,7 +1,0 @@
-name = "say-hi"
-main = "src/index.ts"
-compatibility_date = "2025-01-01"
-
-[vars]
-ALLOWED_ORIGINS = "https://dewaa97.github.io,https://dewaa97.is-a.dev"
-

@@ -41,6 +41,14 @@ export const PortfolioApp = () => {
               {email}
             </a>
           </div>
+
+          <div className="mt-3 text-sm text-muted-foreground">
+            Interested in connecting? Email me at{' '}
+            <a className="underline" href={`mailto:${email}`}>
+              {email}
+            </a>
+            .
+          </div>
         </div>
       </div>
 
@@ -84,98 +92,6 @@ export const PortfolioApp = () => {
         </section>
       </div>
 
-      <section className="mt-12 rounded-2xl border border-border bg-card p-6">
-        <div className="text-lg font-bold">Interested in connecting?</div>
-        <div className="text-sm text-muted-foreground mt-1">
-          This is a static site. The form opens your email client with a pre-filled message.
-        </div>
-
-        <div className="mt-4 flex flex-wrap items-center gap-2">
-          <a
-            className={cn(
-              'h-9 px-3 rounded-xl text-sm font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors',
-              'flex items-center gap-2'
-            )}
-            href={`mailto:${email}`}
-          >
-            <Mail size={16} />
-            Email me
-          </a>
-          <button
-            className="h-9 px-3 rounded-xl text-sm font-semibold bg-muted text-foreground hover:bg-muted/70 transition-colors"
-            onClick={async () => {
-              try {
-                await navigator.clipboard.writeText(email);
-              } catch {
-                window.open(`mailto:${email}`, '_self');
-              }
-            }}
-          >
-            Copy email
-          </button>
-        </div>
-
-        <ConnectInlineForm email={email} />
-      </section>
     </div>
-  );
-};
-
-const ConnectInlineForm = ({ email }: { email: string }) => {
-  const [name, setName] = React.useState('');
-  const [from, setFrom] = React.useState('');
-  const [message, setMessage] = React.useState('');
-
-  const subject = name.trim().length ? `Reach out from ${name.trim()}` : 'Reach out';
-  const body = `Name: ${name}\nEmail: ${from}\n\nMessage:\n${message}`;
-  const href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-  return (
-    <form
-      className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3"
-      onSubmit={(e) => {
-        e.preventDefault();
-        window.location.href = href;
-      }}
-    >
-      <div className="space-y-1">
-        <label className="text-xs font-semibold">Name</label>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="h-10 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-primary/40"
-          placeholder="Your name"
-        />
-      </div>
-      <div className="space-y-1">
-        <label className="text-xs font-semibold">Your email</label>
-        <input
-          value={from}
-          onChange={(e) => setFrom(e.target.value)}
-          className="h-10 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-primary/40"
-          placeholder="name@example.com"
-        />
-      </div>
-      <div className="md:col-span-2 space-y-1">
-        <label className="text-xs font-semibold">Message</label>
-        <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className="min-h-[120px] w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/40 resize-y"
-          placeholder="Write a short message..."
-        />
-      </div>
-      <div className="md:col-span-2 flex items-center gap-2">
-        <button
-          type="submit"
-          className="h-10 px-4 rounded-xl text-sm font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-        >
-          Open email client
-        </button>
-        <a className="text-sm text-muted-foreground underline" href={href}>
-          Or click here
-        </a>
-      </div>
-    </form>
   );
 };

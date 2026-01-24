@@ -1,11 +1,10 @@
-import { Globe, FileText, FolderOpen, Settings, Link, MessageCircle } from 'lucide-react';
+import { Globe, FileText, FolderOpen, Settings, Link } from 'lucide-react';
 import { App } from '@/stores/appStore';
 import { BrowserApp } from '@/components/apps/BrowserApp';
 import { PortfolioApp } from '@/components/apps/PortfolioApp';
 import { FileExplorer } from '@/components/apps/FileExplorer';
 import { SettingsApp } from '@/components/apps/SettingsApp';
 import { Web3App } from '@/components/apps/Web3App';
-import { ConnectApp } from '@/components/apps/ConnectApp';
 
 export const initialApps: App[] = [
   {
@@ -46,14 +45,6 @@ export const initialApps: App[] = [
     icon: Link,
     component: Web3App,
     defaultSize: { width: 860, height: 560 },
-    isResizable: true,
-  },
-  {
-    id: 'hi',
-    title: 'Say Hi!',
-    icon: MessageCircle,
-    component: ConnectApp,
-    defaultSize: { width: 560, height: 560 },
     isResizable: true,
   },
 ];
