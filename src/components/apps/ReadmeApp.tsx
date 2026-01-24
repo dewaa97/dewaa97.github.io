@@ -1,6 +1,23 @@
 import React from 'react';
-import { Mail, ExternalLink, Sparkles, MessageCircle, FlaskConical, BookOpen, Puzzle, AtSign } from 'lucide-react';
+import { Mail, ExternalLink, Sparkles, MessageCircle, FlaskConical, BookOpen, Puzzle, Linkedin } from 'lucide-react';
 import { cn } from '@/utils/cn';
+
+const XLogo = ({ size = 16 }: { size?: number }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden
+    focusable="false"
+  >
+    <path
+      d="M18.9 2H22l-6.8 7.8L23 22h-6.3l-4.9-6.4L6.2 22H3l7.3-8.4L1 2h6.5l4.4 5.9L18.9 2ZM17.8 20h1.7L6.6 3.9H4.8L17.8 20Z"
+      fill="currentColor"
+    />
+  </svg>
+);
 
 export const ReadmeApp = () => {
   const email = 'dewafakhashiva@duck.com';
@@ -168,7 +185,7 @@ export const ReadmeApp = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                <AtSign size={16} />
+                <XLogo size={16} />
                 {xHandle}
               </a>
 
@@ -181,8 +198,9 @@ export const ReadmeApp = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                <ExternalLink size={16} />
+                <Linkedin size={16} />
                 LinkedIn
+                <ExternalLink size={14} className="opacity-80" />
               </a>
             </div>
           </section>
