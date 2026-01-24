@@ -1,4 +1,4 @@
-import { FileText, Settings, Link, BookOpenText } from 'lucide-react';
+import { FileText, Settings, Link, BookOpen } from 'lucide-react';
 import { App } from '@/stores/appStore';
 import { PortfolioApp } from '@/components/apps/PortfolioApp';
 import { SettingsApp } from '@/components/apps/SettingsApp';
@@ -9,7 +9,7 @@ export const initialApps: App[] = [
   {
     id: 'readme',
     title: 'Read Me',
-    icon: BookOpenText,
+    icon: BookOpen,
     component: ReadmeApp,
     defaultSize: { width: 760, height: 560 },
     isResizable: true,
