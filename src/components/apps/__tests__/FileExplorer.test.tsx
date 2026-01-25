@@ -20,6 +20,19 @@ describe('FileExplorer', () => {
     expect(screen.getByText('Project Management')).toBeInTheDocument();
   });
 
+  it('navigates via breadcrumb home button', () => {
+    render(<FileExplorer />);
+
+    const learningItems = screen.getAllByText('Learning');
+    const learningFolder = learningItems[learningItems.length - 1];
+    fireEvent.doubleClick(learningFolder);
+    expect(screen.getByText('Project Management')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByLabelText('Go to Home'));
+    const learningAfter = screen.getAllByText('Learning');
+    expect(learningAfter.length).toBeGreaterThan(0);
+  });
+
   it('updates path when clicking sidebar items', () => {
     render(<FileExplorer />);
 

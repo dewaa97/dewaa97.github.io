@@ -1,5 +1,16 @@
 import React, { useMemo, useState } from 'react';
-import { Folder, ChevronRight, Home, ArrowLeft, LucideIcon, ExternalLink, X, Route } from 'lucide-react';
+import {
+  Folder,
+  ChevronRight,
+  Home,
+  ArrowLeft,
+  LucideIcon,
+  ExternalLink,
+  X,
+  Route,
+  LayoutGrid,
+  List,
+} from 'lucide-react';
 import { cn } from '@/utils/cn';
 
 interface FileSystemItem {
@@ -17,6 +28,11 @@ export const FileExplorer = () => {
   const [currentPath, setCurrentPath] = useState<string[]>([]);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [activeEmbed, setActiveEmbed] = useState<null | { title: string; url: string; embedUrl: string }>(null);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>(() => {
+    if (typeof window === 'undefined') return 'grid';
+    if (!window.matchMedia) return 'grid';
+    return window.matchMedia('(max-width: 520px)').matches ? 'list' : 'grid';
+  });
 
   const nodes = useMemo<Record<string, FileSystemItem>>(
     () => ({
@@ -41,6 +57,12 @@ export const FileExplorer = () => {
       if (currentPath.length === 2 && currentPath[1] === 'project-management') return [nodes.itProjectManagement];
     }
     return [];
+  };
+
+  const getPathLabel = (segment: string) => {
+    if (segment === 'learning') return 'Learning';
+    if (segment === 'project-management') return 'Project Management';
+    return segment;
   };
 
   const handleItemClick = (item: FileSystemItem) => {
@@ -78,45 +100,130 @@ export const FileExplorer = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Breadcrumb / Toolbar */}
-        <div className="h-10 border-b border-border flex items-center px-4 gap-2 bg-muted/10">
-            <button 
-                onClick={() => setCurrentPath(prev => prev.slice(0, -1))}
-                disabled={currentPath.length === 0}
-                className="p-1 hover:bg-muted rounded-md disabled:opacity-30 transition-colors"
+        <div className="h-10 border-b border-border flex items-center justify-between px-4 bg-muted/10">
+          <div className="flex items-center gap-2 min-w-0">
+            <button
+              onClick={() => setCurrentPath((prev) => prev.slice(0, -1))}
+              disabled={currentPath.length === 0}
+              className="p-1 hover:bg-muted rounded-md disabled:opacity-30 transition-colors"
+              aria-label="Back"
             >
-                <ArrowLeft size={16} />
+              <ArrowLeft size={16} />
             </button>
-            <div className="flex items-center text-sm text-muted-foreground">
-                <Home size={14} className="mr-1" />
-                {currentPath.map((p, i) => (
-                    <React.Fragment key={i}>
-                        <ChevronRight size={14} className="mx-1" />
-                        <span>{p === 'learning' ? 'Learning' : p === 'project-management' ? 'Project Management' : p}</span>
-                    </React.Fragment>
-                ))}
+
+            <div className="flex items-center text-sm text-muted-foreground min-w-0">
+              <button
+                className="p-1 -ml-1 hover:bg-muted rounded-md transition-colors"
+                onClick={() => {
+                  setCurrentPath([]);
+                  setSelectedItem(null);
+                }}
+                aria-label="Go to Home"
+              >
+                <Home size={14} />
+              </button>
+
+              {currentPath.map((p, i) => (
+                <React.Fragment key={p}>
+                  <ChevronRight size={14} className="mx-1" />
+                  <button
+                    className="hover:underline truncate"
+                    onClick={() => {
+                      setCurrentPath(currentPath.slice(0, i + 1));
+                      setSelectedItem(null);
+                    }}
+                    aria-label={`Go to ${getPathLabel(p)}`}
+                  >
+                    {getPathLabel(p)}
+                  </button>
+                </React.Fragment>
+              ))}
             </div>
+          </div>
+
+          <div className="flex items-center gap-1">
+            <button
+              className={cn(
+                'h-8 w-8 rounded-md flex items-center justify-center transition-colors',
+                viewMode === 'grid' ? 'bg-muted text-foreground' : 'text-muted-foreground hover:bg-muted'
+              )}
+              onClick={() => setViewMode('grid')}
+              aria-label="Grid view"
+              title="Grid view"
+            >
+              <LayoutGrid size={16} />
+            </button>
+            <button
+              className={cn(
+                'h-8 w-8 rounded-md flex items-center justify-center transition-colors',
+                viewMode === 'list' ? 'bg-muted text-foreground' : 'text-muted-foreground hover:bg-muted'
+              )}
+              onClick={() => setViewMode('list')}
+              aria-label="List view"
+              title="List view"
+            >
+              <List size={16} />
+            </button>
+          </div>
         </div>
 
-        {/* Grid */}
-        <div className="flex-1 p-4 grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] grid-rows-[min-content] gap-4 content-start overflow-y-auto bg-card">
-            {items.map(item => (
-                <div 
-                    key={item.id}
-                    onClick={() => handleItemClick(item)}
-                    onDoubleClick={() => handleItemDoubleClick(item)}
-                    className={cn(
-                        "flex flex-col items-center gap-2 p-4 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors border border-transparent group",
-                        selectedItem === item.id && "bg-accent/10 border-accent/20"
-                    )}
-                >
-                    <item.icon size={48} className={cn("text-muted-foreground transition-colors", item.type === 'folder' ? "text-blue-400 group-hover:text-blue-500" : "text-gray-400 group-hover:text-gray-500")} strokeWidth={1} />
-                    <span className="text-sm text-center line-clamp-2 w-full break-words text-foreground/90">{item.name}</span>
-                </div>
+        {viewMode === 'grid' ? (
+          <div className="flex-1 p-4 grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] grid-rows-[min-content] gap-4 content-start overflow-y-auto bg-card">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => handleItemClick(item)}
+                onDoubleClick={() => handleItemDoubleClick(item)}
+                className={cn(
+                  'flex flex-col items-center gap-2 p-4 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors border border-transparent group',
+                  selectedItem === item.id && 'bg-accent/10 border-accent/20'
+                )}
+              >
+                <item.icon
+                  size={48}
+                  className={cn(
+                    'text-muted-foreground transition-colors',
+                    item.type === 'folder' ? 'text-blue-400 group-hover:text-blue-500' : 'text-gray-400 group-hover:text-gray-500'
+                  )}
+                  strokeWidth={1}
+                />
+                <span className="text-sm text-center line-clamp-2 w-full break-words text-foreground/90">{item.name}</span>
+              </div>
             ))}
             {items.length === 0 && (
-                <div className="col-span-full text-center text-muted-foreground mt-10">This folder is empty.</div>
+              <div className="col-span-full text-center text-muted-foreground mt-10">This folder is empty.</div>
             )}
-        </div>
+          </div>
+        ) : (
+          <div className="flex-1 overflow-y-auto bg-card">
+            <div className="p-2">
+              {items.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => handleItemClick(item)}
+                  onDoubleClick={() => handleItemDoubleClick(item)}
+                  className={cn(
+                    'flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors border border-transparent',
+                    selectedItem === item.id && 'bg-accent/10 border-accent/20'
+                  )}
+                >
+                  <item.icon
+                    size={18}
+                    className={cn(
+                      'text-muted-foreground',
+                      item.type === 'folder' ? 'text-blue-500' : 'text-gray-500'
+                    )}
+                    strokeWidth={1.5}
+                  />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm text-foreground/90 break-words whitespace-normal">{item.name}</div>
+                  </div>
+                </div>
+              ))}
+              {items.length === 0 && <div className="text-center text-muted-foreground mt-10">This folder is empty.</div>}
+            </div>
+          </div>
+        )}
       </div>
 
       {activeEmbed && (

@@ -18,7 +18,7 @@ export const TopBar = () => {
   const { windows, activeWindowId, focusWindow, minimizeWindow } = useWindowStore();
   const { apps } = useAppStore();
   const { currentTheme, isDarkMode } = useThemeStore();
-  const { cleanUpIcons, resetPositions } = useDesktopIconStore();
+  const { cleanUpIcons } = useDesktopIconStore();
   const [isWindowMenuOpen, setIsWindowMenuOpen] = useState(false);
   const [isIconMenuOpen, setIsIconMenuOpen] = useState(false);
   const [retroMenuIndex, setRetroMenuIndex] = useState<Record<string, number>>({});
@@ -112,6 +112,7 @@ export const TopBar = () => {
                         setIsWindowMenuOpen(!isWindowMenuOpen);
                     }}
                 >
+                    <Monitor size={14} />
                     Window
                 </button>
                 
@@ -257,18 +258,6 @@ export const TopBar = () => {
                     }}
                   >
                     Clean Up Icons
-                  </button>
-                  <button
-                    className={cn(
-                      'w-full text-left px-2 py-2 text-sm rounded-md',
-                      isRetro ? 'hover:bg-[#d0c8b6]/20' : 'hover:bg-muted'
-                    )}
-                    onClick={() => {
-                      resetPositions();
-                      setIsIconMenuOpen(false);
-                    }}
-                  >
-                    Reset Icon Layout
                   </button>
                 </div>
               )}
