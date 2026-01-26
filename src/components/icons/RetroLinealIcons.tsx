@@ -169,3 +169,49 @@ export function RetroSettingsIcon({ size = 56, className, mode = 'light' }: Icon
     </svg>
   );
 }
+
+export function RetroPersonalIcon({ size = 56, className, mode = 'light' }: IconProps) {
+  const sticker = mode === 'dark';
+  const outline = getBase('#F9FAFB', 18);
+  const base = getBase('#111111', 10);
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 256 256"
+      className={className}
+      role="img"
+      aria-label="Personal"
+    >
+      {sticker && (
+        <g>
+          <path
+            d="M128 20C68.4 20 20 68.4 20 128s48.4 108 108 108 108-48.4 108-108S187.6 20 128 20Zm0 192c-46.4 0-84-37.6-84-84s37.6-84 84-84 84 37.6 84 84-37.6 84-84 84Z"
+            fill="#DDD6FE"
+            {...outline}
+          />
+          <path
+            d="M128 72c-22.1 0-40 17.9-40 40s17.9 40 40 40 40-17.9 40-40-17.9-40-40-40Zm0 64c-13.2 0-24-10.8-24-24s10.8-24 24-24 24 10.8 24 24-10.8 24-24 24Z"
+            fill="#DDD6FE"
+            {...outline}
+          />
+          <path
+            d="M128 160c-35.3 0-64 19.1-64 42.7v5.3h128v-5.3c0-23.6-28.7-42.7-64-42.7Z"
+            fill="#DDD6FE"
+            {...outline}
+          />
+        </g>
+      )}
+
+      <circle cx="128" cy="128" r="108" fill="#DDD6FE" {...base} />
+      <circle cx="128" cy="112" r="40" fill="#EDE9FE" {...base} />
+      <path
+        d="M64 202.7c0-23.6 28.7-42.7 64-42.7s64 19.1 64 42.7v5.3H64v-5.3Z"
+        fill="#EDE9FE"
+        {...base}
+      />
+      <circle cx="128" cy="112" r="12" fill="#111111" />
+      <path d="M116 132c8 4 16 4 24 0" fill="none" {...base} />
+    </svg>
+  );
+}

@@ -8,11 +8,26 @@ import { initialApps } from '@/config/apps';
 import { useThemeStore, themes } from '@/stores/themeStore';
 import { useWindowStore } from '@/stores/windowStore';
 import { useDesktopIconStore } from '@/stores/desktopIconStore';
+import { useUserStore } from '@/stores/userStore';
 import { cn } from '@/utils/cn';
 
 export const DesktopScreen = () => {
   const { apps } = useAppStore();
-  const desktopApps = Object.values(apps).length > 0 ? Object.values(apps) : initialApps;
+  const { isPersonalMode } = useUserStore();
+  
+  const desktopApps = useMemo(() => {
+    const allApps = Object.values(apps).length > 0 ? Object.values(apps) : initialApps;
+    return allApps.filter(app => {
+      if (app.id === 'explorer' || app.id === 'web3') {
+        return isPersonalMode;
+      }
+      if (app.id === 'personal') {
+        return !isPersonalMode;
+      }
+      return true;
+    });
+  }, [apps, isPersonalMode]);
+
   const { currentTheme } = useThemeStore();
   const theme = themes[currentTheme];
   const { openWindow } = useWindowStore();

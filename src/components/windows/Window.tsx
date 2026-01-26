@@ -85,6 +85,7 @@ const WindowTitleBar = ({
         </button>
         <button 
             onClick={() => closeWindow(window.id)} 
+            aria-label="Close"
             className={cn(
                 "p-1.5 rounded-md transition-colors",
                 controlText,
@@ -272,6 +273,7 @@ export const Window: React.FC<WindowProps> = ({ window: windowState, children })
             });
         }
       }}
+      data-appid={windowState.appId}
       className={cn(
         "flex flex-col overflow-hidden transition-colors duration-200",
         theme.colors.windowBg,

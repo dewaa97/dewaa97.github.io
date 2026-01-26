@@ -5,22 +5,26 @@ import { useThemeStore, themes } from '@/stores/themeStore';
 import { Check, Monitor, LayoutGrid } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { useDesktopIconStore } from '@/stores/desktopIconStore';
+import { useUserStore } from '@/stores/userStore';
 import { initialApps } from '@/config/apps';
 import {
   RetroBrowserIcon,
   RetroExplorerIcon,
   RetroPortfolioIcon,
   RetroSettingsIcon,
+  RetroPersonalIcon,
 } from '@/components/icons/RetroLinealIcons';
 
 export const TopBar = () => {
   const [time, setTime] = useState(new Date());
-  const { windows, activeWindowId, focusWindow, minimizeWindow } = useWindowStore();
+  const { windows, activeWindowId, focusWindow, minimizeWindow, closeWindow } = useWindowStore();
   const { apps } = useAppStore();
   const { currentTheme, isDarkMode } = useThemeStore();
+  const { isPersonalMode, setPersonalMode } = useUserStore();
   const { cleanUpIcons } = useDesktopIconStore();
   const [isWindowMenuOpen, setIsWindowMenuOpen] = useState(false);
   const [isIconMenuOpen, setIsIconMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [retroMenuIndex, setRetroMenuIndex] = useState<Record<string, number>>({});
 
   const theme = themes[currentTheme];
@@ -37,6 +41,8 @@ export const TopBar = () => {
         return RetroExplorerIcon;
       case 'settings':
         return RetroSettingsIcon;
+      case 'personal':
+        return RetroPersonalIcon;
       default:
         return null;
     }
@@ -59,17 +65,39 @@ export const TopBar = () => {
     const handleClickOutside = () => {
       setIsWindowMenuOpen(false);
       setIsIconMenuOpen(false);
+      setIsUserMenuOpen(false);
     };
-    if (isWindowMenuOpen || isIconMenuOpen) {
+    if (isWindowMenuOpen || isIconMenuOpen || isUserMenuOpen) {
       window.addEventListener('click', handleClickOutside);
     }
     return () => window.removeEventListener('click', handleClickOutside);
-  }, [isWindowMenuOpen, isIconMenuOpen]);
+  }, [isWindowMenuOpen, isIconMenuOpen, isUserMenuOpen]);
 
-  const desktopApps = Object.values(apps).length > 0 ? Object.values(apps) : initialApps;
+  const desktopApps = useMemo(() => {
+    const allApps = Object.values(apps).length > 0 ? Object.values(apps) : initialApps;
+    return allApps.filter(app => {
+      if (app.id === 'explorer' || app.id === 'web3') {
+        return isPersonalMode;
+      }
+      if (app.id === 'personal') {
+        return !isPersonalMode;
+      }
+      return true;
+    });
+  }, [apps, isPersonalMode]);
 
   const showDesktop = () => {
     windows.forEach((w) => minimizeWindow(w.id));
+  };
+
+  const closePersonal = () => {
+    setPersonalMode(false);
+    // Close explorer and web3 windows if open
+    windows.forEach(w => {
+      if (w.appId === 'explorer' || w.appId === 'web3') {
+        closeWindow(w.id);
+      }
+    });
   };
 
   return (
@@ -85,14 +113,63 @@ export const TopBar = () => {
       )}
       
       <div className="flex items-center gap-4">
-        <div
-          className={cn(
-            'font-bold flex items-center gap-2',
-            (!isRetro && !isGlassy) && 'drop-shadow-md'
+        <div className="relative">
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsWindowMenuOpen(false);
+              setIsIconMenuOpen(false);
+              setIsUserMenuOpen(!isUserMenuOpen);
+            }}
+            className={cn(
+              'font-bold flex items-center gap-2 cursor-pointer px-2 py-0.5 rounded transition-colors',
+              isUserMenuOpen && (isRetro ? "bg-[#d0c8b6]/30" : "bg-white/10"),
+              isRetro ? "hover:bg-[#d0c8b6]/30" : "hover:bg-white/10",
+              (!isRetro && !isGlassy) && 'drop-shadow-md'
+            )}
+          >
+            <div className={cn('w-4 h-4 rounded-full shadow-sm', isRetro ? 'bg-[#2d2d2d]' : 'bg-white')} />
+            dewaa97
+          </div>
+
+          {isUserMenuOpen && (
+            <div className={cn(
+              "absolute top-full left-0 mt-1 w-48 rounded-lg shadow-xl border p-1 overflow-hidden animate-in fade-in zoom-in-95 duration-100",
+              isRetro 
+                  ? "bg-[#fcfbf9] border-[#d0c8b6] text-[#2d2d2d] shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]" 
+                  : isGlassy
+                      ? "bg-white/60 dark:bg-black/60 backdrop-blur-xl border-white/20 text-foreground"
+                      : "bg-white dark:bg-zinc-800 border-border text-foreground"
+            )}>
+              <div className="px-2 py-1.5 text-xs font-semibold opacity-70 border-b border-border mb-1">
+                User Session
+              </div>
+              
+              <div className="px-2 py-1.5 text-sm">
+                Status: <span className={cn("font-semibold", isPersonalMode ? "text-success" : "text-muted-foreground")}>
+                  {isPersonalMode ? "Personal Mode Active" : "Public Mode"}
+                </span>
+              </div>
+
+              {isPersonalMode && (
+                <>
+                  <div className={cn('my-1 border-t', isRetro ? 'border-[#d0c8b6]/60' : 'border-border')} />
+                  <button
+                    onClick={() => {
+                      closePersonal();
+                      setIsUserMenuOpen(false);
+                    }}
+                    className={cn(
+                      'w-full text-left px-2 py-1.5 text-sm rounded-md flex items-center justify-between text-destructive hover:bg-destructive/10',
+                      isRetro ? 'hover:bg-red-50' : ''
+                    )}
+                  >
+                    <span>X Close Personal</span>
+                  </button>
+                </>
+              )}
+            </div>
           )}
-        >
-          <div className={cn('w-4 h-4 rounded-full shadow-sm', isRetro ? 'bg-[#2d2d2d]' : 'bg-white')} />
-          dewaa97
         </div>
         
         <div className={cn(

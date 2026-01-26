@@ -7,6 +7,7 @@ import {
   RetroExplorerIcon,
   RetroPortfolioIcon,
   RetroSettingsIcon,
+  RetroPersonalIcon,
 } from '@/components/icons/RetroLinealIcons';
 
 interface DesktopIconProps {
@@ -43,6 +44,8 @@ export const DesktopIcon = ({ app }: DesktopIconProps) => {
         return RetroExplorerIcon;
       case 'settings':
         return RetroSettingsIcon;
+      case 'personal':
+        return RetroPersonalIcon;
       default:
         return null;
     }
