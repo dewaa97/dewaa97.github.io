@@ -46,12 +46,18 @@ export const DesktopScreen = () => {
     moved: boolean;
   } | null>(null);
 
+  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+
   const defaultPositions = useMemo(() => {
     const startX = 16;
     const startY = 16;
     const colWidth = 92;
     const rowHeight = 104;
-    const perCol = 6;
+    
+    // Auto-detect perCol based on container height
+    const availableHeight = containerSize.height || (typeof window !== 'undefined' ? window.innerHeight - 32 : 600);
+    const perCol = Math.max(1, Math.floor((availableHeight - startY) / rowHeight));
+    
     const map: Record<string, { x: number; y: number }> = {};
     desktopApps.forEach((app, index) => {
       const col = Math.floor(index / perCol);
@@ -59,7 +65,23 @@ export const DesktopScreen = () => {
       map[app.id] = { x: startX + col * colWidth, y: startY + row * rowHeight };
     });
     return map;
-  }, [desktopApps]);
+  }, [desktopApps, containerSize.height]);
+
+  useEffect(() => {
+    if (!constraintsRef.current) return;
+    
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setContainerSize({
+          width: entry.contentRect.width,
+          height: entry.contentRect.height,
+        });
+      }
+    });
+
+    observer.observe(constraintsRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (didAutoOpenRef.current) return;

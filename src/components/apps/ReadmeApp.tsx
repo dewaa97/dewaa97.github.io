@@ -45,13 +45,6 @@ export const ReadmeApp = () => {
               What you’ll find here
             </div>
 
-            <div className="mt-3 rounded-2xl border border-border bg-background/60 p-3">
-              <div className="text-xs text-muted-foreground">
-                Some notes include links or excerpts from public sources. Credit stays with the original authors—this is just my
-                personal learning library, not me claiming ownership. If you see your work here and prefer it not be shared, reach
-                out via the options below and I’ll take it down without hesitation.
-              </div>
-            </div>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl border border-border bg-background/60 p-3">
                 <div className="flex items-center gap-2 text-sm font-semibold">
@@ -78,15 +71,6 @@ export const ReadmeApp = () => {
                 </div>
                 <div className="mt-1 text-xs text-muted-foreground">
                   How I frame problems, decisions, tradeoffs, and delivery.
-                </div>
-              </div>
-              <div className="rounded-2xl border border-border bg-background/60 p-3">
-                <div className="flex items-center gap-2 text-sm font-semibold">
-                  <MessageCircle size={16} />
-                  Open conversations
-                </div>
-                <div className="mt-1 text-xs text-muted-foreground">
-                  A place to connect with people who like learning in public.
                 </div>
               </div>
             </div>
@@ -169,7 +153,7 @@ export const ReadmeApp = () => {
           <section className="rounded-2xl border border-border bg-card p-4">
             <div className="text-sm font-semibold">Reach out</div>
             <div className="mt-2 text-sm text-muted-foreground">
-              If any of the above resonates—or you just want to say hi—email is best. If that feels too formal, feel free to reach out on X.
+              If any of the above resonates—or you just want to say hi—email is best.
             </div>
 
             <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -182,19 +166,6 @@ export const ReadmeApp = () => {
               >
                 <Mail size={16} />
                 {email}
-              </a>
-
-              <a
-                className={cn(
-                  'h-9 px-3 rounded-xl text-sm font-semibold bg-muted text-foreground hover:bg-muted/70 transition-colors',
-                  'flex items-center gap-2'
-                )}
-                href={xUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <XLogo size={16} />
-                {xHandle}
               </a>
 
               <a
