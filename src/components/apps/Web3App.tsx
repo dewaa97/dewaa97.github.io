@@ -310,7 +310,7 @@ export const Web3App = () => {
           <div className="mt-2 text-sm text-foreground/90">
             {activeTab === 'resources' 
               ? 'A curated selection of learning materials and ecosystem tools.' 
-              : 'Detailed case studies of Web3 projects I have managed and delivered.'}
+              : 'Detailed case studies of Web3 projects I have managed, delivered, or created for learning and personal experiments.'}
           </div>
 
           <div className="mt-6">

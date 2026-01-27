@@ -47,6 +47,7 @@ const WindowTitleBar = ({
           dragControls.start(e);
         }
       }}
+      onDoubleClick={() => toggleMaximize(window.id)}
       style={{ touchAction: 'none' }}
       className={cn(
         "h-10 flex items-center justify-between px-4 select-none border-b transition-colors cursor-default",
