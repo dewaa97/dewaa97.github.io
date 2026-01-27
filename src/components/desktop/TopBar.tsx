@@ -76,7 +76,7 @@ export const TopBar = () => {
   const desktopApps = useMemo(() => {
     const allApps = Object.values(apps).length > 0 ? Object.values(apps) : initialApps;
     return allApps.filter(app => {
-      if (app.id === 'explorer' || app.id === 'web3') {
+      if (app.id === 'explorer') {
         return isPersonalMode;
       }
       if (app.id === 'personal') {
@@ -92,9 +92,9 @@ export const TopBar = () => {
 
   const closePersonal = () => {
     setPersonalMode(false);
-    // Close explorer and web3 windows if open
+    // Close explorer windows if open
     windows.forEach(w => {
-      if (w.appId === 'explorer' || w.appId === 'web3') {
+      if (w.appId === 'explorer') {
         closeWindow(w.id);
       }
     });

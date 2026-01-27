@@ -18,7 +18,7 @@ export const DesktopScreen = () => {
   const desktopApps = useMemo(() => {
     const allApps = Object.values(apps).length > 0 ? Object.values(apps) : initialApps;
     return allApps.filter(app => {
-      if (app.id === 'explorer' || app.id === 'web3') {
+      if (app.id === 'explorer') {
         return isPersonalMode;
       }
       if (app.id === 'personal') {
