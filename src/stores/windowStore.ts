@@ -19,6 +19,7 @@ interface WindowStore {
   openWindow: (appId: string, title: string) => void;
   closeWindow: (id: string) => void;
   minimizeWindow: (id: string) => void;
+  closeAllWindows: () => void;
   toggleMaximize: (id: string) => void;
   focusWindow: (id: string) => void;
   updateWindowPosition: (id: string, position: { x: number; y: number }) => void;
@@ -78,6 +79,12 @@ export const useWindowStore = create<WindowStore>((set) => ({
     windows: state.windows.map((w) => w.id === id ? { ...w, isMinimized: true } : w),
     activeWindowId: null,
   })),
+
+  closeAllWindows: () => set({
+    windows: [],
+    activeWindowId: null,
+    zIndexCounter: 100,
+  }),
 
   toggleMaximize: (id) => set((state) => ({
     windows: state.windows.map((w) => w.id === id ? { ...w, isMaximized: !w.isMaximized } : w),

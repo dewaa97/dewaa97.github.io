@@ -17,7 +17,7 @@ import {
 
 export const TopBar = () => {
   const [time, setTime] = useState(new Date());
-  const { windows, activeWindowId, focusWindow, minimizeWindow, closeWindow } = useWindowStore();
+  const { windows, activeWindowId, focusWindow, minimizeWindow, closeWindow, closeAllWindows } = useWindowStore();
   const { apps } = useAppStore();
   const { currentTheme, isDarkMode } = useThemeStore();
   const { isPersonalMode, setPersonalMode } = useUserStore();
@@ -218,6 +218,19 @@ export const TopBar = () => {
                           )}
                         >
                           <span>Show Desktop</span>
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            closeAllWindows();
+                            setIsWindowMenuOpen(false);
+                          }}
+                          className={cn(
+                            'w-full text-left px-2 py-1.5 text-sm rounded-md flex items-center justify-between group text-destructive hover:bg-destructive/10',
+                            isRetro ? 'hover:bg-red-50' : ''
+                          )}
+                        >
+                          <span>Close All Apps</span>
                         </button>
 
                         <div className={cn('my-1 border-t', isRetro ? 'border-[#d0c8b6]/60' : 'border-border')} />
