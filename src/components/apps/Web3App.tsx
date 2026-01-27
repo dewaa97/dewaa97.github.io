@@ -400,25 +400,12 @@ export const Web3App = () => {
                         <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform overflow-hidden">
                           <ProjectIcon url={p.url} title={p.title} />
                         </div>
-                        <div className="flex gap-2">
-                          <button
-                            className="h-8 px-3 rounded-lg text-[10px] font-semibold uppercase bg-primary text-primary-foreground hover:bg-primary/90 transition-colors flex items-center gap-1.5 shrink-0"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              openInBrowser(p.url);
-                            }}
-                          >
-                            <ExternalLink size={12} />
-                            Open
-                          </button>
-                          <div className="p-1.5 hover:bg-muted rounded-md text-muted-foreground transition-colors">
-                            <ChevronRight size={16} className="group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                          </div>
+                        <div className="p-1.5 hover:bg-muted rounded-md text-muted-foreground transition-colors">
+                          <ChevronRight size={16} className="group-hover:text-primary group-hover:translate-x-1 transition-all" />
                         </div>
                       </div>
 
-                      <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">{p.title}</h3>
-                      <div className="text-[10px] text-muted-foreground mt-0.5 truncate mb-2">{p.url}</div>
+                      <h3 className="text-sm font-semibold group-hover:text-primary transition-colors mb-2">{p.title}</h3>
                       <p className="text-xs text-muted-foreground line-clamp-2 mb-4 flex-1 leading-relaxed">
                         {p.description}
                       </p>
