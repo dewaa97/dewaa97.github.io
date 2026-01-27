@@ -381,38 +381,59 @@ export const Web3App = () => {
                 </div>
               </section>
             ) : (
-              <div className="grid gap-4 sm:grid-cols-2">
-                {projects.map((p) => (
-                  <div 
-                    key={p.id} 
-                    className="group flex flex-col p-5 rounded-2xl border border-border bg-card hover:bg-muted/30 transition-all cursor-pointer shadow-sm hover:shadow-md"
-                    onClick={() => {
-                      setActiveProjectId(p.id);
-                      setViewMode('detail');
-                    }}
-                  >
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform overflow-hidden">
-                        <ProjectIcon url={p.url} title={p.title} />
+              <section className="rounded-2xl border border-border bg-card p-4">
+                <div className="flex items-center gap-2 text-sm font-semibold mb-4">
+                  <Briefcase size={16} />
+                  Projects
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {projects.map((p) => (
+                    <div 
+                      key={p.id} 
+                      className="group flex flex-col p-5 rounded-2xl border border-border bg-background/60 hover:bg-background transition-all cursor-pointer shadow-sm hover:shadow-md"
+                      onClick={() => {
+                        setActiveProjectId(p.id);
+                        setViewMode('detail');
+                      }}
+                    >
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform overflow-hidden">
+                          <ProjectIcon url={p.url} title={p.title} />
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            className="h-8 px-3 rounded-lg text-[10px] font-semibold uppercase bg-primary text-primary-foreground hover:bg-primary/90 transition-colors flex items-center gap-1.5 shrink-0"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openInBrowser(p.url);
+                            }}
+                          >
+                            <ExternalLink size={12} />
+                            Open
+                          </button>
+                          <div className="p-1.5 hover:bg-muted rounded-md text-muted-foreground transition-colors">
+                            <ChevronRight size={16} className="group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                          </div>
+                        </div>
                       </div>
-                      <ChevronRight size={16} className="text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                    </div>
 
-                    <h3 className="text-sm font-semibold mb-2 group-hover:text-primary transition-colors">{p.title}</h3>
-                    <p className="text-xs text-muted-foreground line-clamp-2 mb-4 flex-1 leading-relaxed">
-                      {p.description}
-                    </p>
+                      <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">{p.title}</h3>
+                      <div className="text-[10px] text-muted-foreground mt-0.5 truncate mb-2">{p.url}</div>
+                      <p className="text-xs text-muted-foreground line-clamp-2 mb-4 flex-1 leading-relaxed">
+                        {p.description}
+                      </p>
 
-                    <div className="flex flex-wrap gap-1.5 mt-auto">
-                      {p.technologies.slice(0, 2).map(tech => (
-                        <span key={tech} className="px-2 py-0.5 rounded-md bg-muted text-[9px] font-semibold text-muted-foreground uppercase tracking-wider">
-                          {tech}
-                        </span>
-                      ))}
+                      <div className="flex flex-wrap gap-1.5 mt-auto">
+                        {p.technologies.slice(0, 2).map(tech => (
+                          <span key={tech} className="px-2 py-0.5 rounded-md bg-muted text-[9px] font-semibold text-muted-foreground uppercase tracking-wider">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </section>
             )}
           </div>
         </div>
