@@ -31,7 +31,7 @@ const ProjectIcon = ({ url, title, size = 20 }: { url: string; title: string; si
     }
   }, [url]);
 
-  const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+  const faviconUrl = `https://unavatar.io/${domain}?fallback=https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
 
   if (error || !domain) {
     return <Box size={size} />;
