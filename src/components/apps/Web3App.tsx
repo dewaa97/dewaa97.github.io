@@ -21,6 +21,35 @@ type Web3Project = {
   status: 'live' | 'prototype' | 'internal';
 };
 
+const ProjectIcon = ({ url, title, size = 20 }: { url: string; title: string; size?: number }) => {
+  const [error, setError] = useState(false);
+  const domain = useMemo(() => {
+    try {
+      return new URL(url).hostname;
+    } catch {
+      return '';
+    }
+  }, [url]);
+
+  const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+
+  if (error || !domain) {
+    return <Box size={size} />;
+  }
+
+  return (
+    <img
+      src={faviconUrl}
+      alt={title}
+      className={cn(
+        "object-contain",
+        size <= 24 ? "w-6 h-6" : "w-10 h-10"
+      )}
+      onError={() => setError(true)}
+    />
+  );
+};
+
 export const Web3App = () => {
   const [activeTab, setActiveTab] = useState<'resources' | 'portfolio'>('resources');
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
@@ -178,17 +207,22 @@ export const Web3App = () => {
           </button>
 
           <div className="flex items-start justify-between gap-4 mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-semibold uppercase tracking-wider">
-                  {activeProject.status}
-                </span>
+            <div className="flex gap-4">
+              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary overflow-hidden shrink-0">
+                <ProjectIcon url={activeProject.url} title={activeProject.title} size={32} />
               </div>
-              <h1 className="text-2xl font-bold tracking-tight">{activeProject.title}</h1>
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-semibold uppercase tracking-wider">
+                    {activeProject.status}
+                  </span>
+                </div>
+                <h1 className="text-2xl font-bold tracking-tight">{activeProject.title}</h1>
+              </div>
             </div>
             <button 
               onClick={() => openInBrowser(activeProject.url)}
-              className="flex items-center gap-2 px-3 py-1.5 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all text-xs font-semibold shadow-sm"
+              className="flex items-center gap-2 px-3 py-1.5 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all text-xs font-semibold shadow-sm shrink-0"
             >
               <Globe size={14} />
               Open in Browser
@@ -324,10 +358,15 @@ export const Web3App = () => {
                   {resources.map((r) => (
                     <div key={r.url} className="rounded-2xl border border-border bg-background/60 p-4 hover:bg-background transition-colors group">
                       <div className="flex items-start justify-between gap-4">
-                        <div className="min-w-0">
-                          <div className="text-sm font-semibold truncate group-hover:text-primary transition-colors">{r.title}</div>
-                          <div className="text-[10px] text-muted-foreground mt-0.5 truncate">{r.url}</div>
-                          <div className="text-xs mt-3 text-muted-foreground leading-relaxed">{r.description}</div>
+                        <div className="flex gap-3 min-w-0">
+                          <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center shrink-0 group-hover:bg-primary/10 transition-colors overflow-hidden">
+                            <ProjectIcon url={r.url} title={r.title} />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="text-sm font-semibold truncate group-hover:text-primary transition-colors">{r.title}</div>
+                            <div className="text-[10px] text-muted-foreground mt-0.5 truncate">{r.url}</div>
+                            <div className="text-xs mt-3 text-muted-foreground leading-relaxed">{r.description}</div>
+                          </div>
                         </div>
                         <button
                           className="h-8 px-3 rounded-lg text-[10px] font-semibold uppercase bg-primary text-primary-foreground hover:bg-primary/90 transition-colors flex items-center gap-1.5 shrink-0"
@@ -353,8 +392,8 @@ export const Web3App = () => {
                     }}
                   >
                     <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                        <Box size={20} />
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform overflow-hidden">
+                        <ProjectIcon url={p.url} title={p.title} />
                       </div>
                       <ChevronRight size={16} className="text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                     </div>
