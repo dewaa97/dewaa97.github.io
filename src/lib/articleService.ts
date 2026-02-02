@@ -131,7 +131,7 @@ export async function createArticle(
 
   if (error) throw error;
 
-  // Add categories
+  // Add categories (optional)
   if (categoryIds.length > 0) {
     const { error: categoryError } = await supabase
       .from('article_categories')
@@ -142,7 +142,10 @@ export async function createArticle(
         }))
       );
 
-    if (categoryError) throw categoryError;
+    if (categoryError) {
+      console.error('Warning: Failed to add categories:', categoryError);
+      // Don't throw - categories are optional
+    }
   }
 
   return data;

@@ -91,29 +91,38 @@ export const ArticleEditor: React.FC<ArticleEditorProps> = ({ article, onSave, o
       return;
     }
 
-    if (selectedCategories.length === 0) {
-      setError('Please select at least one category');
-      return;
-    }
-
     setIsLoading(true);
     setError('');
 
     try {
+      let categoryIds = selectedCategories;
+      
+      // If no category selected, create and use a default one
+      if (categoryIds.length === 0) {
+        try {
+          const defaultCat = await getOrCreateCategory('General');
+          categoryIds = [defaultCat.id];
+        } catch (catErr) {
+          console.error('Error creating default category:', catErr);
+          // Continue anyway, category association is optional
+          categoryIds = [];
+        }
+      }
+
       if (article) {
         // Update existing article
         await updateArticle(article.id, {
           title,
           content,
           status,
-          categoryIds: selectedCategories,
+          categoryIds,
         });
       } else {
         // Create new article
         const newArticle = await createArticle(
           title,
           content,
-          selectedCategories,
+          categoryIds,
           imageFile,
           status
         );
@@ -132,8 +141,9 @@ export const ArticleEditor: React.FC<ArticleEditorProps> = ({ article, onSave, o
         onSave(article);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save article');
-      console.error(err);
+      const errorMsg = err instanceof Error ? err.message : 'Failed to save article';
+      setError(errorMsg);
+      console.error('Article save error:', err);
     } finally {
       setIsLoading(false);
     }
