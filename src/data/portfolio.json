@@ -3,7 +3,7 @@
     "name": "Dewa Fakha Shiva",
     "title": "Project Manager at Flying Cape Technologies",
     "fyi": "AI & Web3 enthusiast",
-    "bio": "Leading cross-functional teams and delivering innovative tech solutions for 2+ years. Experienced in project management, customer requirement gathering, and collaborating with UI/UX, developers, and data analysts to bring products to life. Passionate about AI-assisted product building and exploring the potential of Web3 technologies.",
+    "bio": "Leading cross-functional teams and delivering innovative tech solutions for 3+ years. Experienced in project management, customer requirement gathering, and collaborating with UI/UX, developers, and data analysts to bring products to life. Passionate about collaborative problem-solving—turning challenges into actionable plans and sharing knowledge to help teams and clients succeed. Committed to continuous learning and adaptively mastering new technologies. Passionate about AI-assisted product building and exploring the potential of Web3 technologies.",
     "photo": "https://github.com/shadcn.png",
     "contact": {
         "email": "dewafakhashiva@gmail.com",
@@ -19,7 +19,7 @@
       "workMode": "Remote",
       "startDate": "Feb 2023",
       "endDate": "Present",
-      "description": "Leading cross-functional teams to deliver tech solutions on schedule. Managing product delivery with UI/UX designers, developers, and data analysts.",
+      "description": "Lead cross-functional teams to deliver tech solutions on schedule by identifying roadblocks and driving collaborative problem-solving. Manage project delivery with UI/UX designers, developers, and QA to ensure customer success.",
       "technologies": ["Project Management", "Cross-functional Leadership", "Tech Solutions"]
     },
     {
@@ -30,7 +30,7 @@
       "workMode": "Hybrid",
       "startDate": "May 2022",
       "endDate": "Dec 2022",
-      "description": "Managed both internal product development and external customer projects. Led redesign efforts and created project timelines for optimal delivery coordination.",
+      "description": "Managed product and project delivery by identifying customer needs and internal roadblocks. Led redesign initiatives through collaborative problem-solving with developers, QA, UI/UX designers, and data analysts to drive successful outcomes.",
       "technologies": ["Product Development", "Customer Projects", "Timeline Management"]
     },
     {
@@ -41,7 +41,7 @@
       "workMode": "Onsite",
       "startDate": "Jul 2021",
       "endDate": "May 2022",
-      "description": "Led project scopes and objectives involving stakeholders. Organized internal resources and third-party vendors for seamless project execution while ensuring timely delivery within budget.",
+      "description": "Led diverse teams (system administrators, QA, UI/UX, testers, customer support) to solve complex project challenges. Coordinated with stakeholders and vendors to align on priorities and drive seamless project execution.",
       "technologies": ["Stakeholder Management", "Vendor Management", "Budget Management"]
     },
     {
@@ -52,7 +52,7 @@
       "workMode": "Onsite",
       "startDate": "Feb 2018",
       "endDate": "Jun 2021",
-      "description": "Provided technical consulting for sales teams, led implementation of new features, and handled customer requirement gathering for application configuration. Solved customer problems and improved product features.",
+      "description": "Partnered with sales teams to understand customer needs through requirement gathering and technical consulting. Led feature implementation and solved customer problems by collaboratively identifying solutions that improved product capabilities.",
       "technologies": ["Technical Consulting", "Requirement Gathering", "Feature Implementation"]
     },
     {
@@ -63,7 +63,7 @@
       "workMode": "Onsite",
       "startDate": "Nov 2017",
       "endDate": "Feb 2018",
-      "description": "Handled technical support for mobile devices, office inventory, and application setup for new customers. Prepared data for trial applications and managed customer technical needs.",
+      "description": "Provided technical support to new customers, ensuring smooth onboarding for mobile devices, office inventory, and application setup. Managed customer needs proactively and prepared accurate data for trial applications.",
       "technologies": ["Technical Support", "Application Setup", "Customer Support"]
     }
   ],
@@ -71,7 +71,9 @@
     { "name": "Project Management", "level": 95 },
     { "name": "Stakeholder Management", "level": 90 },
     { "name": "Consulting", "level": 85 },
-    { "name": "UI/UX Collaboration", "level": 85 },
+    { "name": "Technical Support", "level": 85 },
+    { "name": "UI/UX Collaboration", "level": 80 },
+    { "name": "Data Manipulation", "level": 75 },
     { "name": "AI-Assisted Product Building", "level": 50 }
   ]
 }
