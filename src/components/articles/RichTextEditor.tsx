@@ -2,19 +2,6 @@ import React, { useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
-import {
-  Bold,
-  Italic,
-  Underline as UnderlineIcon,
-  Heading1,
-  Heading2,
-  List,
-  ListOrdered,
-  Image as ImageIcon,
-  Undo2,
-  Redo2,
-} from 'lucide-react';
-import { cn } from '@/utils/cn';
 
 interface RichTextEditorProps {
   value: string;
@@ -71,119 +58,23 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
     reader.readAsDataURL(file);
   };
 
-  const ButtonGroup = ({ children }: { children: React.ReactNode }) => (
-    <div className="flex items-center gap-1 border-r border-border pr-1 mr-1">{children}</div>
-  );
-
-  const ToolButton = ({
-    icon: Icon,
-    label,
-    onClick,
-    isActive = false,
-  }: {
-    icon: React.ComponentType<any>;
-    label: string;
-    onClick: () => void;
-    isActive?: boolean;
-  }) => (
-    <button
-      onClick={onClick}
-      title={label}
-      className={cn(
-        'p-2 rounded transition-colors',
-        isActive
-          ? 'bg-primary text-primary-foreground'
-          : 'bg-muted text-foreground hover:bg-muted/70'
-      )}
-    >
-      <Icon size={16} />
-    </button>
-  );
-
   return (
-    <div className="flex flex-col h-full space-y-2 bg-background">
-      {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-2 p-2 bg-muted rounded-lg border border-border">
-        <ButtonGroup>
-          <ToolButton
-            icon={Bold}
-            label="Bold"
-            onClick={() => editor.chain().focus().toggleBold().run()}
-            isActive={editor.isActive('bold')}
-          />
-          <ToolButton
-            icon={Italic}
-            label="Italic"
-            onClick={() => editor.chain().focus().toggleItalic().run()}
-            isActive={editor.isActive('italic')}
-          />
-          <ToolButton
-            icon={UnderlineIcon}
-            label="Underline"
-            onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-            isActive={editor.isActive('codeBlock')}
-          />
-        </ButtonGroup>
-
-        <ButtonGroup>
-          <ToolButton
-            icon={Heading1}
-            label="Heading 1"
-            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-            isActive={editor.isActive('heading', { level: 1 })}
-          />
-          <ToolButton
-            icon={Heading2}
-            label="Heading 2"
-            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-            isActive={editor.isActive('heading', { level: 2 })}
-          />
-        </ButtonGroup>
-
-        <ButtonGroup>
-          <ToolButton
-            icon={List}
-            label="Bullet List"
-            onClick={() => editor.chain().focus().toggleBulletList().run()}
-            isActive={editor.isActive('bulletList')}
-          />
-          <ToolButton
-            icon={ListOrdered}
-            label="Numbered List"
-            onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            isActive={editor.isActive('orderedList')}
-          />
-        </ButtonGroup>
-
-        <ButtonGroup>
-          <ToolButton
-            icon={ImageIcon}
-            label="Insert Image"
-            onClick={() => setIsImageDialogOpen(true)}
-          />
-        </ButtonGroup>
-
-        <ButtonGroup>
-          <ToolButton
-            icon={Undo2}
-            label="Undo"
-            onClick={() => editor.chain().focus().undo().run()}
-          />
-          <ToolButton
-            icon={Redo2}
-            label="Redo"
-            onClick={() => editor.chain().focus().redo().run()}
-          />
-        </ButtonGroup>
-      </div>
-
-      {/* Editor */}
-      <div className="flex-1 overflow-hidden border border-border rounded-lg bg-white dark:bg-slate-900" style={{ minHeight: '300px' }} onClick={() => editor?.view.focus()}>
+    <div className="w-full">
+      {/* Simple input-like editor */}
+      <div 
+        className="w-full px-4 py-3 rounded-lg border border-border bg-white dark:bg-slate-900 outline-none focus-within:border-primary transition-colors min-h-[200px]"
+        onClick={() => editor?.view.focus()}
+      >
         <EditorContent
           editor={editor}
-          className="h-full overflow-y-auto prose prose-base max-w-none px-4 py-3 outline-none dark:prose-invert [&>*]:text-base [&_p]:m-0 [&_h1]:m-2 [&_h1]:text-2xl [&_h2]:m-1 [&_h2]:text-xl"
+          className="prose prose-base max-w-none dark:prose-invert outline-none [&>*]:m-1 [&_p]:text-base [&_h1]:text-2xl [&_h2]:text-xl [&_strong]:font-bold [&_em]:italic [&_u]:underline"
         />
       </div>
+
+      {/* Keyboard shortcuts hint */}
+      <p className="text-xs text-muted-foreground mt-2">
+        Tips: Cmd+B (bold) • Cmd+I (italic) • Cmd+Shift+X (strike) • Cmd+Alt+1 (H1) • Cmd+Alt+2 (H2)
+      </p>
 
       {/* Image Dialog */}
       {isImageDialogOpen && (
