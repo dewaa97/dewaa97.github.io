@@ -76,62 +76,62 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   return (
     <div className="w-full border border-border rounded-lg overflow-hidden bg-white dark:bg-slate-900">
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-1 p-3 border-b border-border bg-muted/30">
+      <div className="flex flex-wrap items-center gap-0.5 p-2 border-b border-border bg-muted/20">
         {/* Undo/Redo */}
         <button
           onClick={() => editor.chain().focus().undo().run()}
           disabled={!editor.can().undo()}
-          className="p-2 hover:bg-muted rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1.5 hover:bg-muted rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           title="Undo"
         >
-          <Undo2 size={18} />
+          <Undo2 size={14} />
         </button>
         <button
           onClick={() => editor.chain().focus().redo().run()}
           disabled={!editor.can().redo()}
-          className="p-2 hover:bg-muted rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1.5 hover:bg-muted rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           title="Redo"
         >
-          <Redo2 size={18} />
+          <Redo2 size={14} />
         </button>
 
-        <div className="w-px h-6 bg-border mx-1" />
+        <div className="w-px h-5 bg-border/30 mx-0.5" />
 
         {/* Text formatting */}
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
-          className={`p-2 rounded transition-colors ${
+          className={`p-1.5 rounded transition-colors ${
             editor.isActive('bold') ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
           }`}
           title="Bold (Cmd+B)"
         >
-          <Bold size={18} />
+          <Bold size={14} />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={`p-2 rounded transition-colors ${
+          className={`p-1.5 rounded transition-colors ${
             editor.isActive('italic') ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
           }`}
           title="Italic (Cmd+I)"
         >
-          <Italic size={18} />
+          <Italic size={14} />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleUnderline().run()}
-          className={`p-2 rounded transition-colors ${
+          className={`p-1.5 rounded transition-colors ${
             editor.isActive('underline') ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
           }`}
           title="Underline"
         >
-          <Underline size={18} />
+          <Underline size={14} />
         </button>
 
-        <div className="w-px h-6 bg-border mx-1" />
+        <div className="w-px h-5 bg-border/30 mx-0.5" />
 
         {/* Headings */}
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-          className={`p-2 rounded transition-colors font-bold ${
+          className={`p-1.5 rounded transition-colors text-xs font-bold ${
             editor.isActive('heading', { level: 1 }) ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
           }`}
           title="Heading 1"
@@ -140,7 +140,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         </button>
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={`p-2 rounded transition-colors font-bold ${
+          className={`p-1.5 rounded transition-colors text-xs font-bold ${
             editor.isActive('heading', { level: 2 }) ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
           }`}
           title="Heading 2"
@@ -148,60 +148,60 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           H2
         </button>
 
-        <div className="w-px h-6 bg-border mx-1" />
+        <div className="w-px h-5 bg-border/30 mx-0.5" />
 
         {/* Lists */}
         <button
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={`p-2 rounded transition-colors ${
+          className={`p-1.5 rounded transition-colors ${
             editor.isActive('bulletList') ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
           }`}
           title="Bullet List"
         >
-          <List size={18} />
+          <List size={14} />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={`p-2 rounded transition-colors ${
+          className={`p-1.5 rounded transition-colors ${
             editor.isActive('orderedList') ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
           }`}
           title="Numbered List"
         >
-          <ListOrdered size={18} />
+          <ListOrdered size={14} />
         </button>
 
-        <div className="w-px h-6 bg-border mx-1" />
+        <div className="w-px h-5 bg-border/30 mx-0.5" />
 
         {/* Code block */}
         <button
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          className={`p-2 rounded transition-colors ${
+          className={`p-1.5 rounded transition-colors ${
             editor.isActive('codeBlock') ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
           }`}
           title="Code Block"
         >
-          <Code size={18} />
+          <Code size={14} />
         </button>
 
         {/* Image */}
         <button
           onClick={() => setIsImageDialogOpen(true)}
-          className="p-2 hover:bg-muted rounded transition-colors"
+          className="p-1.5 hover:bg-muted rounded transition-colors"
           title="Insert Image"
         >
-          <ImagePlus size={18} />
+          <ImagePlus size={14} />
         </button>
       </div>
 
       {/* Editor content area */}
       <div 
-        className="prose prose-base max-w-none dark:prose-invert px-4 py-3 outline-none [&_p]:text-base [&_p]:my-2 [&_h1]:text-3xl [&_h1]:my-3 [&_h1]:font-bold [&_h2]:text-2xl [&_h2]:my-2 [&_h2]:font-bold [&_strong]:font-bold [&_em]:italic [&_u]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_li]:my-1 [&_pre]:bg-muted [&_pre]:p-3 [&_pre]:rounded [&_code]:font-mono [&_code]:text-sm"
+        className="prose prose-base max-w-none dark:prose-invert px-4 py-3 outline-none focus:outline-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:focus:outline-none [&_p]:text-base [&_p]:my-2 [&_h1]:text-3xl [&_h1]:my-3 [&_h1]:font-bold [&_h2]:text-2xl [&_h2]:my-2 [&_h2]:font-bold [&_strong]:font-bold [&_em]:italic [&_u]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_li]:my-1 [&_pre]:bg-muted [&_pre]:p-3 [&_pre]:rounded [&_code]:font-mono [&_code]:text-sm"
         onClick={() => editor?.view.focus()}
         style={{ minHeight: '250px' }}
       >
         <EditorContent
           editor={editor}
-          className="outline-none"
+          className="outline-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:focus:outline-none"
         />
       </div>
 
