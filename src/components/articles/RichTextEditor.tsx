@@ -2,6 +2,20 @@ import React, { useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
+import UnderlineExtension from '@tiptap/extension-underline';
+import {
+  Bold,
+  Italic,
+  Underline,
+  Heading1,
+  Heading2,
+  List,
+  ListOrdered,
+  ImagePlus,
+  Undo2,
+  Redo2,
+  Code,
+} from 'lucide-react';
 
 interface RichTextEditorProps {
   value: string;
@@ -27,6 +41,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
       Image.configure({
         allowBase64: true,
       }),
+      UnderlineExtension,
     ],
     content: value,
     onUpdate: ({ editor }) => {
@@ -59,22 +74,136 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   };
 
   return (
-    <div className="w-full">
-      {/* Simple input-like editor */}
+    <div className="w-full border border-border rounded-lg overflow-hidden bg-white dark:bg-slate-900">
+      {/* Toolbar */}
+      <div className="flex flex-wrap items-center gap-1 p-3 border-b border-border bg-muted/30">
+        {/* Undo/Redo */}
+        <button
+          onClick={() => editor.chain().focus().undo().run()}
+          disabled={!editor.can().undo()}
+          className="p-2 hover:bg-muted rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          title="Undo"
+        >
+          <Undo2 size={18} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().redo().run()}
+          disabled={!editor.can().redo()}
+          className="p-2 hover:bg-muted rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          title="Redo"
+        >
+          <Redo2 size={18} />
+        </button>
+
+        <div className="w-px h-6 bg-border mx-1" />
+
+        {/* Text formatting */}
+        <button
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          className={`p-2 rounded transition-colors ${
+            editor.isActive('bold') ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+          }`}
+          title="Bold (Cmd+B)"
+        >
+          <Bold size={18} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          className={`p-2 rounded transition-colors ${
+            editor.isActive('italic') ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+          }`}
+          title="Italic (Cmd+I)"
+        >
+          <Italic size={18} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleUnderline().run()}
+          className={`p-2 rounded transition-colors ${
+            editor.isActive('underline') ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+          }`}
+          title="Underline"
+        >
+          <Underline size={18} />
+        </button>
+
+        <div className="w-px h-6 bg-border mx-1" />
+
+        {/* Headings */}
+        <button
+          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          className={`p-2 rounded transition-colors font-bold ${
+            editor.isActive('heading', { level: 1 }) ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+          }`}
+          title="Heading 1"
+        >
+          H1
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          className={`p-2 rounded transition-colors font-bold ${
+            editor.isActive('heading', { level: 2 }) ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+          }`}
+          title="Heading 2"
+        >
+          H2
+        </button>
+
+        <div className="w-px h-6 bg-border mx-1" />
+
+        {/* Lists */}
+        <button
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+          className={`p-2 rounded transition-colors ${
+            editor.isActive('bulletList') ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+          }`}
+          title="Bullet List"
+        >
+          <List size={18} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          className={`p-2 rounded transition-colors ${
+            editor.isActive('orderedList') ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+          }`}
+          title="Numbered List"
+        >
+          <ListOrdered size={18} />
+        </button>
+
+        <div className="w-px h-6 bg-border mx-1" />
+
+        {/* Code block */}
+        <button
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          className={`p-2 rounded transition-colors ${
+            editor.isActive('codeBlock') ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+          }`}
+          title="Code Block"
+        >
+          <Code size={18} />
+        </button>
+
+        {/* Image */}
+        <button
+          onClick={() => setIsImageDialogOpen(true)}
+          className="p-2 hover:bg-muted rounded transition-colors"
+          title="Insert Image"
+        >
+          <ImagePlus size={18} />
+        </button>
+      </div>
+
+      {/* Editor content area */}
       <div 
-        className="w-full px-4 py-3 rounded-lg border border-border bg-white dark:bg-slate-900 outline-none focus-within:border-primary transition-colors min-h-[200px]"
+        className="prose prose-base max-w-none dark:prose-invert px-4 py-3 outline-none [&_p]:text-base [&_p]:my-2 [&_h1]:text-3xl [&_h1]:my-3 [&_h1]:font-bold [&_h2]:text-2xl [&_h2]:my-2 [&_h2]:font-bold [&_strong]:font-bold [&_em]:italic [&_u]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_li]:my-1 [&_pre]:bg-muted [&_pre]:p-3 [&_pre]:rounded [&_code]:font-mono [&_code]:text-sm"
         onClick={() => editor?.view.focus()}
+        style={{ minHeight: '250px' }}
       >
         <EditorContent
           editor={editor}
-          className="prose prose-base max-w-none dark:prose-invert outline-none [&>*]:m-1 [&_p]:text-base [&_h1]:text-2xl [&_h2]:text-xl [&_strong]:font-bold [&_em]:italic [&_u]:underline"
+          className="outline-none"
         />
       </div>
-
-      {/* Keyboard shortcuts hint */}
-      <p className="text-xs text-muted-foreground mt-2">
-        Tips: Cmd+B (bold) • Cmd+I (italic) • Cmd+Shift+X (strike) • Cmd+Alt+1 (H1) • Cmd+Alt+2 (H2)
-      </p>
 
       {/* Image Dialog */}
       {isImageDialogOpen && (
