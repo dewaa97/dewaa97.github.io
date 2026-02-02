@@ -1,3 +1,11 @@
+# Welcome! 👋
+
+Hey there! If you're a recruiter or someone interested in learning more about my work experience, feel free to explore the **Resume** section on this website to check out what I've been up to.
+
+If you find something that aligns with what you're looking for or if you think we'd be a great fit to work together, don't hesitate to **reach out**! I'm always open to exciting opportunities. And of course, if you just want to grab a coffee ☕, exchange ideas, or have a casual chat, I'm down for that too. Let's connect!
+
+---
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

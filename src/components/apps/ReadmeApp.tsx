@@ -30,6 +30,23 @@ export const ReadmeApp = () => {
       <div className="max-w-2xl mx-auto p-4 sm:p-6 pb-10">
         <div className="text-2xl font-bold">Read Me First</div>
 
+        <section className="mt-6 rounded-2xl border border-border bg-card p-4 bg-gradient-to-br from-primary/10 to-transparent">
+          <div className="flex items-center gap-2 text-sm font-semibold mb-3">
+            <MessageCircle size={16} />
+            For Recruiters & Collaborators
+          </div>
+          <div className="space-y-2 text-sm text-foreground/90">
+            <p>
+              Hey! If you're checking out this site, feel free to explore my <strong>Resume</strong> section to see what I've been working on and my experience.
+            </p>
+            <p>
+              If you think we'd be a great fit to work together or if you have an opportunity that aligns with my skills, I'd love to hear from you—don't hesitate to reach out! And if you just want to chat, exchange ideas, or grab a coffee ☕, I'm totally down for that too. Let's connect!
+            </p>
+          </div>
+        </section>
+
+        <div className="mt-6 text-2xl font-bold">About This Space</div>
+
         <div className="mt-2 text-sm text-foreground/90">
           This website is my personal workspace on the internet.
         </div>
