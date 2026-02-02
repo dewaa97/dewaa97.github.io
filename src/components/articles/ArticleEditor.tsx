@@ -13,6 +13,19 @@ import {
 } from '@/lib/articleService';
 import { formatFileSize } from '@/lib/imageCompression';
 
+// Helper to extract plain text from HTML
+const extractTextFromHtml = (html: string): string => {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  return (div.textContent || div.innerText || '').trim();
+};
+
+// Helper to check if content has actual text (not just empty tags)
+const hasContent = (html: string): boolean => {
+  const text = extractTextFromHtml(html);
+  return text.length > 0;
+};
+
 interface ArticleEditorProps {
   article?: Article | null;
   onSave?: (article: Article) => void;
@@ -86,8 +99,13 @@ export const ArticleEditor: React.FC<ArticleEditorProps> = ({ article, onSave, o
   };
 
   const handleSave = async () => {
-    if (!title.trim() || !content.trim()) {
-      setError('Title and content are required');
+    if (!title.trim()) {
+      setError('Title is required');
+      return;
+    }
+
+    if (!hasContent(content)) {
+      setError('Content is required (please write something)');
       return;
     }
 
@@ -147,7 +165,7 @@ export const ArticleEditor: React.FC<ArticleEditorProps> = ({ article, onSave, o
     } finally {
       setIsLoading(false);
     }
-  };
+  };;
 
   const handleDelete = async () => {
     if (!article) return;
