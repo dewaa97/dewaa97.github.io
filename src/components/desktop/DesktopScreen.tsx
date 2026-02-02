@@ -15,18 +15,20 @@ export const DesktopScreen = () => {
   const { apps } = useAppStore();
   const { isPersonalMode } = useUserStore();
   
+  // Get all apps for positioning (including hidden ones)
+  const allApps = useMemo(() => {
+    return Object.values(apps).length > 0 ? Object.values(apps) : initialApps;
+  }, [apps]);
+  
+  // Filter apps for display
   const desktopApps = useMemo(() => {
-    const allApps = Object.values(apps).length > 0 ? Object.values(apps) : initialApps;
     return allApps.filter(app => {
       if (app.id === 'explorer') {
         return isPersonalMode;
       }
-      if (app.id === 'personal') {
-        return !isPersonalMode;
-      }
       return true;
     });
-  }, [apps, isPersonalMode]);
+  }, [allApps, isPersonalMode]);
 
   const { currentTheme } = useThemeStore();
   const theme = themes[currentTheme];
@@ -58,15 +60,15 @@ export const DesktopScreen = () => {
     const perCol = Math.max(1, Math.floor((availableHeight - rowHeight) / rowHeight));
     
     const map: Record<string, { x: number; y: number }> = {};
-    // Position apps from bottom to top
-    desktopApps.forEach((app, index) => {
+    // Position apps from bottom to top based on allApps (including hidden ones)
+    allApps.forEach((app, index) => {
       const col = Math.floor(index / perCol);
       const row = index % perCol;
       const startY = availableHeight - rowHeight - (row * rowHeight);
       map[app.id] = { x: startX + col * colWidth, y: startY };
     });
     return map;
-  }, [desktopApps, containerSize.height]);
+  }, [allApps, containerSize.height]);
 
   useEffect(() => {
     if (!constraintsRef.current) return;

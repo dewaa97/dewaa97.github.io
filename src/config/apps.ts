@@ -8,14 +8,6 @@ import { FileExplorer } from '@/components/apps/FileExplorer';
 
 export const initialApps: App[] = [
   {
-    id: 'explorer',
-    title: 'Explorer',
-    icon: FolderOpen,
-    component: FileExplorer,
-    defaultSize: { width: 920, height: 620 },
-    isResizable: true,
-  },
-  {
     id: 'readme',
     title: 'Read Me',
     icon: BookOpen,
@@ -45,6 +37,14 @@ export const initialApps: App[] = [
     icon: Link,
     component: Web3App,
     defaultSize: { width: 860, height: 560 },
+    isResizable: true,
+  },
+  {
+    id: 'explorer',
+    title: 'Explorer',
+    icon: FolderOpen,
+    component: FileExplorer,
+    defaultSize: { width: 920, height: 620 },
     isResizable: true,
   },
 ];

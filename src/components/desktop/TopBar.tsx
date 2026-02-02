@@ -81,9 +81,6 @@ export const TopBar = () => {
       if (app.id === 'explorer') {
         return isPersonalMode;
       }
-      if (app.id === 'personal') {
-        return !isPersonalMode;
-      }
       return true;
     });
   }, [apps, isPersonalMode]);
