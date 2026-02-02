@@ -95,6 +95,13 @@ export async function createArticle(
 ): Promise<Article> {
   let imageUrl: string | undefined;
 
+  // Get current user
+  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+  
+  if (sessionError) {
+    console.error('Session error:', sessionError);
+  }
+
   // Upload and compress image if provided
   if (imageFile) {
     const compressedBlob = await compressImage(imageFile);
@@ -124,6 +131,7 @@ export async function createArticle(
         content,
         image_url: imageUrl,
         status,
+        user_id: session?.user?.id || null, // Set user_id if authenticated
       },
     ])
     .select()
