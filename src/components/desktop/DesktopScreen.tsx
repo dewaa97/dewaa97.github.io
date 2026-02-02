@@ -50,19 +50,20 @@ export const DesktopScreen = () => {
 
   const defaultPositions = useMemo(() => {
     const startX = 16;
-    const startY = 16;
     const colWidth = 92;
     const rowHeight = 104;
     
     // Auto-detect perCol based on container height
     const availableHeight = containerSize.height || (typeof window !== 'undefined' ? window.innerHeight - 32 : 600);
-    const perCol = Math.max(1, Math.floor((availableHeight - startY) / rowHeight));
+    const perCol = Math.max(1, Math.floor((availableHeight - rowHeight) / rowHeight));
     
     const map: Record<string, { x: number; y: number }> = {};
+    // Position apps from bottom to top
     desktopApps.forEach((app, index) => {
       const col = Math.floor(index / perCol);
       const row = index % perCol;
-      map[app.id] = { x: startX + col * colWidth, y: startY + row * rowHeight };
+      const startY = availableHeight - rowHeight - (row * rowHeight);
+      map[app.id] = { x: startX + col * colWidth, y: startY };
     });
     return map;
   }, [desktopApps, containerSize.height]);
