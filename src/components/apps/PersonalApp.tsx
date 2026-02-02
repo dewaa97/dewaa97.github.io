@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useUserStore } from '@/stores/userStore';
-import { Lock, AlertCircle, LogOut } from 'lucide-react';
+import { Lock, AlertCircle } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
-const LoginDialog = ({ isOpen, onClose, onLogin }: { isOpen: boolean; onClose: () => void; onLogin: () => void }) => {
+export const LoginDialog = ({ isOpen, onClose, onLogin }: { isOpen: boolean; onClose: () => void; onLogin: () => void }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
 
@@ -76,69 +76,7 @@ const LoginDialog = ({ isOpen, onClose, onLogin }: { isOpen: boolean; onClose: (
 };
 
 export const PersonalApp = () => {
-  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
-  const { isPersonalMode, setPersonalMode } = useUserStore();
-
-  const handleLogin = () => {
-    setPersonalMode(true);
-    setIsLoginDialogOpen(false);
-  };
-
-  const handleLogout = () => {
-    setPersonalMode(false);
-  };
-
-  return (
-    <>
-      <LoginDialog 
-        isOpen={isLoginDialogOpen} 
-        onClose={() => setIsLoginDialogOpen(false)}
-        onLogin={handleLogin}
-      />
-      <div className="h-full flex flex-col items-center justify-center p-8 bg-background">
-        <div className="w-full max-w-sm space-y-8">
-          <div className="text-center space-y-4">
-            <div className="text-3xl font-bold">dewaa97</div>
-            <div className="space-y-1">
-              <p className="text-muted-foreground">Status:</p>
-              <div className={cn(
-                "inline-block px-4 py-2 rounded-lg font-semibold text-sm",
-                isPersonalMode 
-                  ? "bg-success/10 text-success" 
-                  : "bg-muted text-muted-foreground"
-              )}>
-                {isPersonalMode ? "Personal Mode Active" : "Public Mode"}
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            {!isPersonalMode ? (
-              <button
-                onClick={() => setIsLoginDialogOpen(true)}
-                className="w-full py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:opacity-90 transition-opacity active:scale-[0.98] flex items-center justify-center gap-2"
-              >
-                <Lock size={18} />
-                Login
-              </button>
-            ) : (
-              <button
-                onClick={handleLogout}
-                className="w-full py-3 bg-destructive/10 text-destructive rounded-xl font-bold hover:opacity-90 transition-opacity active:scale-[0.98] flex items-center justify-center gap-2"
-              >
-                <LogOut size={18} />
-                Logout
-              </button>
-            )}
-          </div>
-
-          {isPersonalMode && (
-            <div className="text-center text-xs text-muted-foreground p-3 bg-muted/50 rounded-lg">
-              You have access to personal apps. Close any open windows before logging out.
-            </div>
-          )}
-        </div>
-      </div>
-    </>
-  );
+  // This component is no longer used as a desktop app
+  // Login functionality is now in TopBar
+  return null;
 };

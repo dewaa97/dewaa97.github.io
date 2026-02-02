@@ -2,11 +2,12 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { useWindowStore } from '@/stores/windowStore';
 import { useAppStore } from '@/stores/appStore';
 import { useThemeStore, themes } from '@/stores/themeStore';
-import { Check, Monitor, LayoutGrid } from 'lucide-react';
+import { Check, Monitor, LayoutGrid, Lock } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { useDesktopIconStore } from '@/stores/desktopIconStore';
 import { useUserStore } from '@/stores/userStore';
 import { initialApps } from '@/config/apps';
+import { LoginDialog } from '@/components/apps/PersonalApp';
 import {
   RetroBrowserIcon,
   RetroExplorerIcon,
@@ -17,6 +18,7 @@ import {
 
 export const TopBar = () => {
   const [time, setTime] = useState(new Date());
+  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const { windows, activeWindowId, focusWindow, minimizeWindow, closeWindow, closeAllWindows } = useWindowStore();
   const { apps } = useAppStore();
   const { currentTheme, isDarkMode } = useThemeStore();
@@ -135,7 +137,7 @@ export const TopBar = () => {
 
           {isUserMenuOpen && (
             <div className={cn(
-              "absolute top-full left-0 mt-1 w-48 rounded-lg shadow-xl border p-1 overflow-hidden animate-in fade-in zoom-in-95 duration-100",
+              "absolute top-full left-0 mt-1 w-56 rounded-lg shadow-xl border p-1 overflow-hidden animate-in fade-in zoom-in-95 duration-100",
               isRetro 
                   ? "bg-[#fcfbf9] border-[#d0c8b6] text-[#2d2d2d] shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]" 
                   : isGlassy
@@ -152,22 +154,35 @@ export const TopBar = () => {
                 </span>
               </div>
 
-              {isPersonalMode && (
-                <>
-                  <div className={cn('my-1 border-t', isRetro ? 'border-[#d0c8b6]/60' : 'border-border')} />
-                  <button
-                    onClick={() => {
-                      closePersonal();
-                      setIsUserMenuOpen(false);
-                    }}
-                    className={cn(
-                      'w-full text-left px-2 py-1.5 text-sm rounded-md flex items-center justify-between text-destructive hover:bg-destructive/10',
-                      isRetro ? 'hover:bg-red-50' : ''
-                    )}
-                  >
-                    <span>X Close Personal</span>
-                  </button>
-                </>
+              <div className={cn('my-1 border-t', isRetro ? 'border-[#d0c8b6]/60' : 'border-border')} />
+
+              {!isPersonalMode ? (
+                <button
+                  onClick={() => {
+                    setIsLoginDialogOpen(true);
+                    setIsUserMenuOpen(false);
+                  }}
+                  className={cn(
+                    'w-full text-left px-2 py-1.5 text-sm rounded-md flex items-center gap-2 text-primary hover:bg-primary/10',
+                    isRetro ? 'hover:bg-blue-50' : ''
+                  )}
+                >
+                  <Lock size={14} />
+                  <span>Login</span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    closePersonal();
+                    setIsUserMenuOpen(false);
+                  }}
+                  className={cn(
+                    'w-full text-left px-2 py-1.5 text-sm rounded-md flex items-center justify-between text-destructive hover:bg-destructive/10',
+                    isRetro ? 'hover:bg-red-50' : ''
+                  )}
+                >
+                  <span>Logout</span>
+                </button>
               )}
             </div>
           )}
@@ -372,6 +387,15 @@ export const TopBar = () => {
           {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </div>
       </div>
+
+      <LoginDialog 
+        isOpen={isLoginDialogOpen}
+        onClose={() => setIsLoginDialogOpen(false)}
+        onLogin={() => {
+          setPersonalMode(true);
+          setIsLoginDialogOpen(false);
+        }}
+      />
     </div>
   );
 };

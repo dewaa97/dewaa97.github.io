@@ -1,21 +1,12 @@
-import { FileText, Settings, Link, BookOpen, FolderOpen, Lock } from 'lucide-react';
+import { FileText, Settings, Link, BookOpen, FolderOpen } from 'lucide-react';
 import { App } from '@/stores/appStore';
 import { PortfolioApp } from '@/components/apps/PortfolioApp';
 import { SettingsApp } from '@/components/apps/SettingsApp';
 import { Web3App } from '@/components/apps/Web3App';
 import { ReadmeApp } from '@/components/apps/ReadmeApp';
 import { FileExplorer } from '@/components/apps/FileExplorer';
-import { PersonalApp } from '@/components/apps/PersonalApp';
 
 export const initialApps: App[] = [
-  {
-    id: 'personal',
-    title: 'dewaa97',
-    icon: Lock,
-    component: PersonalApp,
-    defaultSize: { width: 400, height: 380 },
-    isResizable: false,
-  },
   {
     id: 'explorer',
     title: 'Explorer',
