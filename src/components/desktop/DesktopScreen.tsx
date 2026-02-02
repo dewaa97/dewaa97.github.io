@@ -23,7 +23,7 @@ export const DesktopScreen = () => {
   // Filter apps for display
   const desktopApps = useMemo(() => {
     return allApps.filter(app => {
-      if (app.id === 'explorer' || app.id === 'myarticles') {
+      if (app.id === 'myarticles') {
         return isPersonalMode;
       }
       return true;
