@@ -1,10 +1,12 @@
-import { FileText, Settings, Link, BookOpen, FolderOpen } from 'lucide-react';
+import { FileText, Settings, Link, BookOpen, FolderOpen, Newspaper } from 'lucide-react';
 import { App } from '@/stores/appStore';
 import { PortfolioApp } from '@/components/apps/PortfolioApp';
 import { SettingsApp } from '@/components/apps/SettingsApp';
 import { Web3App } from '@/components/apps/Web3App';
 import { ReadmeApp } from '@/components/apps/ReadmeApp';
 import { FileExplorer } from '@/components/apps/FileExplorer';
+import { ArticlesApp } from '@/components/apps/ArticlesApp';
+import { MyArticlesApp } from '@/components/apps/MyArticlesApp';
 
 export const initialApps: App[] = [
   {
@@ -37,6 +39,22 @@ export const initialApps: App[] = [
     icon: Link,
     component: Web3App,
     defaultSize: { width: 860, height: 560 },
+    isResizable: true,
+  },
+  {
+    id: 'articles',
+    title: 'Articles',
+    icon: Newspaper,
+    component: ArticlesApp,
+    defaultSize: { width: 900, height: 600 },
+    isResizable: true,
+  },
+  {
+    id: 'myarticles',
+    title: 'My Articles',
+    icon: FileText,
+    component: MyArticlesApp,
+    defaultSize: { width: 900, height: 600 },
     isResizable: true,
   },
   {

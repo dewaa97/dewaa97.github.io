@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useUserStore } from '@/stores/userStore';
-import { Lock, AlertCircle } from 'lucide-react';
+import { Lock, AlertCircle, FileText } from 'lucide-react';
 import { cn } from '@/utils/cn';
+import { ArticleEditor } from '@/components/articles/ArticleEditor';
 
 export const LoginDialog = ({ isOpen, onClose, onLogin }: { isOpen: boolean; onClose: () => void; onLogin: () => void }) => {
   const [password, setPassword] = useState('');
