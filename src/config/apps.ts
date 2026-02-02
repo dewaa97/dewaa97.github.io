@@ -10,10 +10,10 @@ import { PersonalApp } from '@/components/apps/PersonalApp';
 export const initialApps: App[] = [
   {
     id: 'personal',
-    title: 'Personal',
+    title: 'dewaa97',
     icon: Lock,
     component: PersonalApp,
-    defaultSize: { width: 500, height: 450 },
+    defaultSize: { width: 400, height: 380 },
     isResizable: false,
   },
   {

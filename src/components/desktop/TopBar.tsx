@@ -91,13 +91,14 @@ export const TopBar = () => {
   };
 
   const closePersonal = () => {
-    setPersonalMode(false);
-    // Close explorer windows if open
+    // Close all personal windows first
     windows.forEach(w => {
-      if (w.appId === 'explorer') {
+      if (['explorer', 'filemanager'].includes(w.appId)) {
         closeWindow(w.id);
       }
     });
+    // Then set personal mode to false
+    setPersonalMode(false);
   };
 
   return (
