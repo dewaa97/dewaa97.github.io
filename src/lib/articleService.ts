@@ -129,7 +129,14 @@ export async function createArticle(
     .select()
     .single();
 
-  if (error) throw error;
+  if (error) {
+    console.error('Article insert error:', error);
+    // Check if it's an RLS error
+    if (error.message?.includes('violates row-level security policy')) {
+      throw new Error('Database access error. Please contact support. (RLS Policy Issue)');
+    }
+    throw error;
+  }
 
   // Add categories (optional)
   if (categoryIds.length > 0) {
