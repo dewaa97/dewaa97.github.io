@@ -45,6 +45,12 @@ export const TopBar = () => {
         return RetroSettingsIcon;
       case 'personal':
         return RetroPersonalIcon;
+      case 'articles':
+      case 'myarticles':
+      case 'readme':
+      case 'web3':
+        // These use PNG icons from retro-icons folder
+        return null;
       default:
         return null;
     }
