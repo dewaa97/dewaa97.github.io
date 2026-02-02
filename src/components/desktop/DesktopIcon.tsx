@@ -14,6 +14,14 @@ interface DesktopIconProps {
   app: App;
 }
 
+const getIconFileName = (appId: string) => {
+  // Map app IDs to their icon file names
+  const iconMap: Record<string, string> = {
+    'myarticles': 'publish',
+  };
+  return iconMap[appId] || appId;
+};
+
 export const DesktopIcon = ({ app }: DesktopIconProps) => {
   const { currentTheme, isDarkMode } = useThemeStore();
   const isRetro = currentTheme === 'retro';
@@ -23,7 +31,8 @@ export const DesktopIcon = ({ app }: DesktopIconProps) => {
 
   const retroAssetSrc = useMemo(() => {
     if (!isRetro) return null;
-    return [`/retro-icons/${app.id}.png`, `/retro-icons/${app.id}.svg`, `/retro-icons/${app.id}.webp`];
+    const iconFileName = getIconFileName(app.id);
+    return [`/retro-icons/${iconFileName}.png`, `/retro-icons/${iconFileName}.svg`, `/retro-icons/${iconFileName}.webp`];
   }, [app.id, isRetro]);
 
   const retroImgStyle = useMemo<React.CSSProperties>(() => {

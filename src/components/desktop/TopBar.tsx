@@ -56,6 +56,14 @@ export const TopBar = () => {
     }
   };
 
+  const getIconFileName = (appId: string) => {
+    // Map app IDs to their icon file names
+    const iconMap: Record<string, string> = {
+      'myarticles': 'publish',
+    };
+    return iconMap[appId] || appId;
+  };
+
   const retroMenuIconStyle = useMemo<React.CSSProperties>(() => {
     if (!isDarkMode) return {};
     return {
@@ -277,9 +285,9 @@ export const TopBar = () => {
                                               isRetro ? (() => {
                                                 const idx = retroMenuIndex[window.appId] ?? 0;
                                                 const sources = [
-                                                  `/retro-icons/${window.appId}.png`,
-                                                  `/retro-icons/${window.appId}.svg`,
-                                                  `/retro-icons/${window.appId}.webp`,
+                                                  `/retro-icons/${getIconFileName(window.appId)}.png`,
+                                                  `/retro-icons/${getIconFileName(window.appId)}.svg`,
+                                                  `/retro-icons/${getIconFileName(window.appId)}.webp`,
                                                 ];
 
                                                 if (idx < sources.length) {
