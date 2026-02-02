@@ -181,7 +181,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
       <div className="flex-1 overflow-hidden border border-border rounded-lg bg-white dark:bg-slate-900">
         <EditorContent
           editor={editor}
-          className="h-full overflow-y-auto prose prose-sm max-w-none px-4 py-3 focus:outline-none dark:prose-invert"
+          className="h-full overflow-y-auto prose prose-base max-w-none px-4 py-3 focus:outline-none dark:prose-invert [&>*]:text-base"
         />
       </div>
 

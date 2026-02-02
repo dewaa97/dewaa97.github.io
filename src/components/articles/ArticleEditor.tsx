@@ -298,7 +298,7 @@ export const ArticleEditor: React.FC<ArticleEditorProps> = ({ article, onSave, o
         </div>
 
         {/* Content */}
-        <div className="space-y-2 flex-1 flex flex-col min-h-0">
+        <div className="space-y-2 flex-1 flex flex-col min-h-0" style={{ minHeight: '300px' }}>
           <label className="text-sm font-semibold">Content</label>
           <RichTextEditor value={content} onChange={setContent} />
         </div>
