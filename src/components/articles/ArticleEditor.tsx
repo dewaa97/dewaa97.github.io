@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, X, Save, Trash2, Eye, EyeOff } from 'lucide-react';
 import { cn } from '@/utils/cn';
+import { RichTextEditor } from '@/components/articles/RichTextEditor';
 import {
   createArticle,
   updateArticle,
@@ -297,14 +298,9 @@ export const ArticleEditor: React.FC<ArticleEditorProps> = ({ article, onSave, o
         </div>
 
         {/* Content */}
-        <div className="space-y-2">
+        <div className="space-y-2 flex-1 flex flex-col min-h-0">
           <label className="text-sm font-semibold">Content</label>
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Write your article content..."
-            className="w-full px-3 py-2 rounded-lg bg-muted border border-border outline-none focus:border-primary transition-colors resize-none h-40"
-          />
+          <RichTextEditor value={content} onChange={setContent} />
         </div>
       </div>
 
