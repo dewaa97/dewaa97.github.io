@@ -178,10 +178,10 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
       </div>
 
       {/* Editor */}
-      <div className="flex-1 overflow-hidden border border-border rounded-lg bg-white dark:bg-slate-900" style={{ minHeight: '400px' }}>
+      <div className="flex-1 overflow-hidden border border-border rounded-lg bg-white dark:bg-slate-900" style={{ minHeight: '300px' }} onClick={() => editor?.view.focus()}>
         <EditorContent
           editor={editor}
-          className="h-full overflow-y-auto prose prose-base max-w-none px-4 py-3 focus:outline-none dark:prose-invert [&>*]:text-base"
+          className="h-full overflow-y-auto prose prose-base max-w-none px-4 py-3 outline-none dark:prose-invert [&>*]:text-base [&_p]:m-0 [&_h1]:m-2 [&_h1]:text-2xl [&_h2]:m-1 [&_h2]:text-xl"
         />
       </div>
 
