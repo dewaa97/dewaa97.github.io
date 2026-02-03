@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { ExternalLink, ArrowLeft, Globe, Briefcase, Code, Info, ShieldCheck, Box, User, Terminal, ChevronRight, AlertCircle, BookOpen, Sparkles, LayoutGrid } from 'lucide-react';
+import { ExternalLink, ArrowLeft, Globe, Briefcase, Code, Info, ShieldCheck, Box, User, Terminal, ChevronRight, AlertCircle, BookOpen, Sparkles, LayoutGrid, LucideIcon } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
 type Resource = {
@@ -22,7 +22,6 @@ type Web3Project = {
 };
 
 const ProjectIcon = ({ url, title, size = 20 }: { url: string; title: string; size?: number }) => {
-  const [error, setError] = useState(false);
   const domain = useMemo(() => {
     try {
       return new URL(url).hostname;
@@ -32,8 +31,8 @@ const ProjectIcon = ({ url, title, size = 20 }: { url: string; title: string; si
   }, [url]);
 
   const faviconUrl = `https://unavatar.io/${domain}?fallback=https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
-
-  if (error || !domain) {
+  
+  if (!domain) {
     return <Box size={size} />;
   }
 
@@ -45,7 +44,9 @@ const ProjectIcon = ({ url, title, size = 20 }: { url: string; title: string; si
         "object-contain",
         size <= 24 ? "w-6 h-6" : "w-10 h-10"
       )}
-      onError={() => setError(true)}
+      onError={(e) => {
+        (e.target as HTMLImageElement).src = `https://unavatar.io/${domain}?fallback=https://api.dicebear.com/7.x/initials/svg?seed=${title}`;
+      }}
     />
   );
 };
@@ -116,7 +117,7 @@ export const Web3App = () => {
     }
   };
 
-  const TabButton = ({ id, label, icon: Icon }: { id: typeof activeTab, label: string, icon: any }) => (
+  const TabButton = ({ id, label, icon: Icon }: { id: typeof activeTab, label: string, icon: LucideIcon }) => (
     <button
       onClick={() => {
         setActiveTab(id);

@@ -8,12 +8,10 @@ import { initialApps } from '@/config/apps';
 import { useThemeStore, themes } from '@/stores/themeStore';
 import { useWindowStore } from '@/stores/windowStore';
 import { useDesktopIconStore } from '@/stores/desktopIconStore';
-import { useUserStore } from '@/stores/userStore';
 import { cn } from '@/utils/cn';
 
 export const DesktopScreen = () => {
   const { apps } = useAppStore();
-  const { isPersonalMode } = useUserStore();
   
   // Get all apps for positioning (including hidden ones)
   const allApps = useMemo(() => {
