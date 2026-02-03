@@ -1,6 +1,16 @@
 import { supabase } from '@/lib/supabase';
 import { compressImage } from '@/lib/imageCompression';
 
+/**
+ * Helper to ensure supabase is initialized
+ */
+function ensureSupabase() {
+  if (!supabase) {
+    throw new Error('Database functionality is currently unavailable (Missing configuration).');
+  }
+  return supabase;
+}
+
 export interface Article {
   id: string;
   title: string;
@@ -23,10 +33,11 @@ export interface Category {
  * Get or create category by name
  */
 export async function getOrCreateCategory(name: string): Promise<Category> {
+  const client = ensureSupabase();
   const slug = name.toLowerCase().replace(/\s+/g, '-');
 
   // Try to get existing category
-  const { data: existing, error: getError } = await supabase
+  const { data: existing, error: getError } = await client
     .from('categories')
     .select('*')
     .eq('slug', slug)
@@ -36,7 +47,7 @@ export async function getOrCreateCategory(name: string): Promise<Category> {
   if (getError && getError.code !== 'PGRST116') throw getError; // Not "not found" error
 
   // Create new category if not exists
-  const { data: created, error: createError } = await supabase
+  const { data: created, error: createError } = await client
     .from('categories')
     .insert([{ name, slug }])
     .select()
@@ -50,6 +61,7 @@ export async function getOrCreateCategory(name: string): Promise<Category> {
  * Get all categories
  */
 export async function getCategories(): Promise<Category[]> {
+  if (!supabase) return [];
   const { data, error } = await supabase
     .from('categories')
     .select('*')
@@ -63,8 +75,9 @@ export async function getCategories(): Promise<Category[]> {
  * Delete category (only if no articles use it)
  */
 export async function deleteCategory(id: string): Promise<void> {
+  const client = ensureSupabase();
   // Check if category has articles
-  const { count, error: countError } = await supabase
+  const { count, error: countError } = await client
     .from('article_categories')
     .select('*', { count: 'exact', head: true })
     .eq('category_id', id);
@@ -75,7 +88,7 @@ export async function deleteCategory(id: string): Promise<void> {
   }
 
   // Delete category
-  const { error } = await supabase
+  const { error } = await client
     .from('categories')
     .delete()
     .eq('id', id);
@@ -93,10 +106,11 @@ export async function createArticle(
   imageFile: File | null,
   status: 'draft' | 'published' = 'draft'
 ): Promise<Article> {
+  const client = ensureSupabase();
   let imageUrl: string | undefined;
 
   // Get current user
-  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+  const { data: { session }, error: sessionError } = await client.auth.getSession();
   
   if (sessionError) {
     console.error('Session error:', sessionError);
@@ -107,7 +121,7 @@ export async function createArticle(
     const compressedBlob = await compressImage(imageFile);
     const fileName = `${Date.now()}_${imageFile.name.replace(/[^a-z0-9.]/gi, '_').toLowerCase()}`;
     
-    const { data: uploadData, error: uploadError } = await supabase.storage
+    const { data: uploadData, error: uploadError } = await client.storage
       .from('article-images')
       .upload(fileName, compressedBlob, {
         contentType: 'image/webp',
@@ -115,7 +129,7 @@ export async function createArticle(
 
     if (uploadError) throw uploadError;
 
-    const { data } = supabase.storage
+    const { data } = client.storage
       .from('article-images')
       .getPublicUrl(uploadData.path);
     
@@ -123,7 +137,7 @@ export async function createArticle(
   }
 
   // Insert article into database
-  const { data, error } = await supabase
+  const { data, error } = await client
     .from('articles')
     .insert([
       {
@@ -148,7 +162,7 @@ export async function createArticle(
 
   // Add categories (optional)
   if (categoryIds.length > 0) {
-    const { error: categoryError } = await supabase
+    const { error: categoryError } = await client
       .from('article_categories')
       .insert(
         categoryIds.map(catId => ({
@@ -170,6 +184,7 @@ export async function createArticle(
  * Get all published articles with categories
  */
 export async function getPublicArticles(): Promise<Article[]> {
+  if (!supabase) return [];
   const { data, error } = await supabase
     .from('articles')
     .select('*')
@@ -184,6 +199,7 @@ export async function getPublicArticles(): Promise<Article[]> {
  * Get all articles (for personal mode)
  */
 export async function getAllArticles(): Promise<Article[]> {
+  if (!supabase) return [];
   const { data, error } = await supabase
     .from('articles')
     .select('*')
@@ -197,6 +213,7 @@ export async function getAllArticles(): Promise<Article[]> {
  * Get single article by ID
  */
 export async function getArticle(id: string): Promise<Article | null> {
+  if (!supabase) return null;
   const { data, error } = await supabase
     .from('articles')
     .select('*')
@@ -217,10 +234,11 @@ export async function updateArticle(
   id: string,
   updates: Partial<Article> & { categoryIds?: string[] }
 ): Promise<Article> {
+  const client = ensureSupabase();
   const { categoryIds, ...articleUpdates } = updates;
 
   // Update article
-  const { data, error } = await supabase
+  const { data, error } = await client
     .from('articles')
     .update({
       ...articleUpdates,
@@ -235,14 +253,14 @@ export async function updateArticle(
   // Update categories if provided
   if (categoryIds !== undefined) {
     // Delete existing categories
-    await supabase
+    await client
       .from('article_categories')
       .delete()
       .eq('article_id', id);
 
     // Add new categories
     if (categoryIds.length > 0) {
-      const { error: categoryError } = await supabase
+      const { error: categoryError } = await client
         .from('article_categories')
         .insert(
           categoryIds.map(catId => ({
@@ -251,7 +269,9 @@ export async function updateArticle(
           }))
         );
 
-      if (categoryError) throw categoryError;
+      if (categoryError) {
+        console.error('Warning: Failed to update categories:', categoryError);
+      }
     }
   }
 
@@ -262,11 +282,12 @@ export async function updateArticle(
  * Delete article and its image
  */
 export async function deleteArticle(id: string, imageUrl?: string): Promise<void> {
+  const client = ensureSupabase();
   // Delete image from storage if exists
   if (imageUrl) {
     const fileName = imageUrl.split('/').pop();
     if (fileName) {
-      await supabase.storage
+      await client.storage
         .from('article-images')
         .remove([fileName])
         .catch(() => {
@@ -276,13 +297,13 @@ export async function deleteArticle(id: string, imageUrl?: string): Promise<void
   }
 
   // Delete article categories
-  await supabase
+  await client
     .from('article_categories')
     .delete()
     .eq('article_id', id);
 
   // Delete article from database
-  const { error } = await supabase
+  const { error } = await client
     .from('articles')
     .delete()
     .eq('id', id);
