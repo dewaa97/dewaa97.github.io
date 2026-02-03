@@ -16,9 +16,7 @@ interface DesktopIconProps {
 
 const getIconFileName = (appId: string) => {
   // Map app IDs to their icon file names
-  const iconMap: Record<string, string> = {
-    'myarticles': 'publish',
-  };
+  const iconMap: Record<string, string> = {};
   return iconMap[appId] || appId;
 };
 
