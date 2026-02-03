@@ -45,8 +45,6 @@ export const TopBar = () => {
         return RetroSettingsIcon;
       case 'personal':
         return RetroPersonalIcon;
-      case 'articles':
-      case 'myarticles':
       case 'readme':
       case 'web3':
         // These use PNG icons from retro-icons folder
@@ -58,9 +56,7 @@ export const TopBar = () => {
 
   const getIconFileName = (appId: string) => {
     // Map app IDs to their icon file names
-    const iconMap: Record<string, string> = {
-      'myarticles': 'publish',
-    };
+    const iconMap: Record<string, string> = {};
     return iconMap[appId] || appId;
   };
 

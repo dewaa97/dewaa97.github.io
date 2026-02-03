@@ -22,13 +22,8 @@ export const DesktopScreen = () => {
   
   // Filter apps for display
   const desktopApps = useMemo(() => {
-    return allApps.filter(app => {
-      if (app.id === 'myarticles') {
-        return isPersonalMode;
-      }
-      return true;
-    });
-  }, [allApps, isPersonalMode]);
+    return allApps;
+  }, [allApps]);
 
   const { currentTheme } = useThemeStore();
   const theme = themes[currentTheme];
