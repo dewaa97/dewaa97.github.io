@@ -27,7 +27,7 @@ export const LoginDialog = ({ isOpen, onClose, onLogin }: { isOpen: boolean; onC
           <div className="mx-auto w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-4">
             <Lock size={32} />
           </div>
-          <h2 className="text-2xl font-bold">Access Personal Space</h2>
+          <h2 className="text-2xl font-bold">Access Private Access</h2>
           <p className="text-muted-foreground">Please enter your password to continue</p>
         </div>
 
