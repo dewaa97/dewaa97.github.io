@@ -21,7 +21,7 @@ export const ReadmeApp = () => {
               Hey! If you're checking out this site, feel free to explore my <strong>Resume</strong> section to see what I've been working on and my experience.
             </p>
             <p>
-              If you think we'd be a great fit to work together or if you have an opportunity that aligns with my skills, I'd love to hear from you—don't hesitate to reach out! And if you just want to chat, exchange ideas, or grab a coffee ☕, I'm totally down for that too. Let's connect!
+              If you think we'd be a great fit to work together or if you have an opportunity that aligns with my skills, I'd love to hear from you—don't hesitate to reach out! And if you just want to chat, exchange ideas, or grab a coffee, I'm totally down for that too. Let's connect!
             </p>
           </div>
         </section>
