@@ -1,9 +1,9 @@
-import { FileText, Settings, Link, BookOpen } from 'lucide-react';
+import { FileText, Settings, BookOpen, Link } from 'lucide-react';
 import { App } from '@/stores/appStore';
 import { PortfolioApp } from '@/components/apps/PortfolioApp';
 import { SettingsApp } from '@/components/apps/SettingsApp';
-import { Web3App } from '@/components/apps/Web3App';
 import { ReadmeApp } from '@/components/apps/ReadmeApp';
+import { Web3App } from '@/components/apps/Web3App';
 
 export const initialApps: App[] = [
   {
@@ -30,6 +30,7 @@ export const initialApps: App[] = [
     defaultSize: { width: 600, height: 400 },
     isResizable: false,
   },
+  /* Hide Web3 for now
   {
     id: 'web3',
     title: 'Web3',
@@ -38,4 +39,5 @@ export const initialApps: App[] = [
     defaultSize: { width: 860, height: 560 },
     isResizable: true,
   },
+  */
 ];
