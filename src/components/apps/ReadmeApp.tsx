@@ -88,9 +88,9 @@ export const ReadmeApp = () => {
                 </div>
               </div>
               <div className="rounded-2xl border border-border bg-background/60 p-3">
-                <div className="text-sm font-semibold">You’re exploring AI, product, or Web3</div>
+                <div className="text-sm font-semibold">You’re exploring AI or product</div>
                 <div className="mt-1 text-xs text-muted-foreground">
-                  Especially if you’re bridging worlds: PM × AI, product × engineering, or Web2 × Web3.
+                  Especially if you’re bridging worlds: PM × AI, or product × engineering.
                 </div>
               </div>
               <div className="rounded-2xl border border-border bg-background/60 p-3">
@@ -131,12 +131,6 @@ export const ReadmeApp = () => {
                 <div className="text-sm font-semibold">Prototype or test something quickly</div>
                 <div className="mt-1 text-xs text-muted-foreground">
                   A small experiment can answer bigger questions fast.
-                </div>
-              </div>
-              <div className="rounded-2xl border border-border bg-background/60 p-3">
-                <div className="text-sm font-semibold">Exchange notes on Web3</div>
-                <div className="mt-1 text-xs text-muted-foreground">
-                  Learning paths, roles, product angles, and what you’re seeing in the space.
                 </div>
               </div>
               <div className="rounded-2xl border border-border bg-background/60 p-3">
