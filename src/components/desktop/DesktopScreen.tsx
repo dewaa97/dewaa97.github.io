@@ -8,10 +8,12 @@ import { initialApps } from '@/config/apps';
 import { useThemeStore, themes } from '@/stores/themeStore';
 import { useWindowStore } from '@/stores/windowStore';
 import { useDesktopIconStore } from '@/stores/desktopIconStore';
+import { useUserStore } from '@/stores/userStore';
 import { cn } from '@/utils/cn';
 
 export const DesktopScreen = () => {
   const { apps } = useAppStore();
+  const { isPersonalMode } = useUserStore();
   
   // Get all apps for positioning (including hidden ones)
   const allApps = useMemo(() => {
@@ -20,8 +22,13 @@ export const DesktopScreen = () => {
   
   // Filter apps for display
   const desktopApps = useMemo(() => {
-    return allApps;
-  }, [allApps]);
+    return allApps.filter(app => {
+      if (app.id === 'myarticles') {
+        return isPersonalMode;
+      }
+      return true;
+    });
+  }, [allApps, isPersonalMode]);
 
   const { currentTheme } = useThemeStore();
   const theme = themes[currentTheme];

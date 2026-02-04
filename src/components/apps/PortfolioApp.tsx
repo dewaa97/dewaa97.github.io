@@ -88,17 +88,14 @@ export const PortfolioApp = () => {
         {/* Skills */}
         <section className="space-y-6">
             <h2 className="text-xl font-bold flex items-center gap-2 text-primary border-b border-border pb-2"><Code size={20} /> Skills</h2>
-            <div className="space-y-5">
+            <div className="flex flex-wrap gap-3">
                 {portfolioData.skills.map(skill => (
-                    <div key={skill.name}>
-                        <div className="flex justify-between mb-1.5">
-                            <span className="font-medium text-sm">{skill.name}</span>
-                            <span className="text-muted-foreground text-xs font-mono">{skill.level}%</span>
-                        </div>
-                        <div className="h-2.5 bg-muted rounded-full overflow-hidden">
-                            <div className="h-full bg-primary rounded-full transition-all duration-1000 ease-out" style={{ width: `${skill.level}%` }} />
-                        </div>
-                    </div>
+                    <span 
+                      key={skill.name} 
+                      className="px-4 py-2 bg-muted/50 text-foreground text-sm font-medium rounded-xl border border-border"
+                    >
+                      {skill.name}
+                    </span>
                 ))}
             </div>
         </section>

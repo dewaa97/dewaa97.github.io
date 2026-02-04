@@ -53,7 +53,5 @@ describe('PortfolioApp', () => {
     // React might appear in Experience too, so we check if at least one exists
     const reactElements = screen.getAllByText('React');
     expect(reactElements.length).toBeGreaterThan(0);
-    
-    expect(screen.getByText('90%')).toBeInTheDocument();
   });
 });
